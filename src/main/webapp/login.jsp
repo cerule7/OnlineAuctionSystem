@@ -8,5 +8,15 @@
 </head>
 <body>
 
+
+<form method="post" action="welcome.jsp">
+
+<input type="text" name="username"/>
+<input type="text" name="email"/>
+<input type="text" name="password"/>
+<input type="submit" value="submit"/>
+
+</form>
+
 </body>
 </html>
