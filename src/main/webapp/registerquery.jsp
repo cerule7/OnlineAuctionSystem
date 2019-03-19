@@ -1,18 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" import="com.Group21.OnlineAuctionSystem.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>User Registration</title>
+<title>Registering</title>
 </head>
 <body>
-<%--CODE GOES HERE.--%>
-<div>
-	<p>Enter a username:</p>
-	<form action=""
-	
-</div>
 
 </body>
 </html>
