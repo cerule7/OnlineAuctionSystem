@@ -7,13 +7,17 @@
 <title>User Registration</title>
 </head>
 <body>
-<%--CODE GOES HERE.--%>
 <div>
-	<p>Enter a username:</p>
-	<form  method="post" action="registerquery.jsp"> 
-	Username:<input username="Username" type="text"/> 
+	<form  method="post" action="registerquery.jsp">
+	Enter a Username:<input username="username" type="text"/> 
+	<br>
+	Enter a Password:<input password="password" type="text"/> 
+	<br>
+	Enter an email address:<input email="email" type="text"/> 
+	<br>
+	<input type="submit" value="submit"/>
 	</form>
-	
+	<br>
 </div>
 
 </body>
