@@ -36,7 +36,7 @@
 		//ResultSet result = stmt.executeQuery(str);
 		ResultSet result = q.executeQuery();
 		
-		if(result.wasNull()){
+		if(result.next() == false){
 			out.print("<p>");
 			out.print("Login unsucessful. Try again.");
 			out.print("</p>");
@@ -46,7 +46,7 @@
 			out.print("</p>");
 		}
 		
-		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
+		//Close the connection
 		con.close();
 		
 	} catch (Exception ex) {
