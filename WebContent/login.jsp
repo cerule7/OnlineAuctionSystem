@@ -11,8 +11,12 @@
 
 <form method="post" action="welcome.jsp">
 
+Username:
 <input type="text" name="username"/>
+
+Password:
 <input type="text" name="password"/>
+
 <input type="submit" value="submit"/>
 
 </form>
