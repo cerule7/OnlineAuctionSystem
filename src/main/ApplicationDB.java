@@ -49,7 +49,42 @@ public class ApplicationDB {
 			e.printStackTrace();
 		}
 	}
-	
+	//now to make queries
+		public ResultSet query(String query, Connection con) {
+			Statement stmt=null;
+			ResultSet rs = null;
+			try {
+				stmt = con.createStatement();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			try {
+				rs=stmt.executeQuery(query);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+			return rs;
+		}
+		//and do stuff to table
+		public int update(String query, Connection con) {
+			Statement stmt=null;
+			try {
+				stmt =con.createStatement();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				return stmt.executeUpdate(query);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//in case it fails
+			return -1;
+		}
 	public static void main(String[] args) {
 		ApplicationDB dao = new ApplicationDB();
 		Connection connection = dao.getConnection();
