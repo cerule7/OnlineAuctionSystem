@@ -15,7 +15,7 @@
    </head>
    
    <body>
-      <p>Click the following button, to page you want to go to.</p>
+      <p>Click the button, to login or register.</p>
       
       <form>
          <input type="button" value="Register" onclick="RedirectRegister();" />
