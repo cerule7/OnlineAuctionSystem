@@ -9,11 +9,11 @@
 <body>
 <div>
 	<form  method="post" action="registerquery.jsp">
-	Enter a Username:<input username="username" type="text"/> 
+	Enter a username:<input name="username" type="text"/> 
 	<br>
-	Enter a Password:<input password="password" type="text"/> 
+	Enter a password:<input name="password" type="text"/> 
 	<br>
-	Enter an email address:<input email="email" type="text"/> 
+	Enter an email address:<input name="email" type="text"/> 
 	<br>
 	<input type="submit" value="submit"/>
 	</form>
