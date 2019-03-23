@@ -1,25 +1,15 @@
 <html>
    <head>
-      
-      <script type="text/javascript">
-         <!--
-            function RedirectRegister() {
-               window.location="http://localhost:8080/auctionSystem/register.jsp";
-            }
-            function RedirectLogin() {
-               window.location="http://localhost:8080/auctionSystem/login.jsp";
-            }
-         //-->
-      </script>
-      
+     Index
    </head>
    
    <body>
-      <p>Click a button, to login or register.</p>
+      <p>Click a link to login or register.</p>
       
       <form>
-         <input type="button" value="Register" onclick="RedirectRegister();" />
-         <input type="button" value = "Login" onclick ="RedirectLogin();"/>
+        <a href="register.jsp"> Register </a>
+        <p>
+        <a href="login.jsp"> Login </a>
       </form>
       
    </body>
