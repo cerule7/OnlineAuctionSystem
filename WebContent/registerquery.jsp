@@ -14,8 +14,12 @@
 	try {
 
 		//Get the database connection
+		String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
+		//Get the database connection
+		Class.forName("com.mysql.jdbc.Driver");
+				
 		ApplicationDB db = new ApplicationDB();	
-		Connection con = db.getConnection();
+		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
 		//Create a SQL statement
 		Statement stmt = con.createStatement();
