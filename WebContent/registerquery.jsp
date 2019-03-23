@@ -60,7 +60,6 @@
 		
 	} catch (Exception ex) {
 		out.print(ex);
-		out.print("Registration failed :()");
 	}
 %>
 </body>
