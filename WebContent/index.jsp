@@ -1,15 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
 <html>
-
-<head>
-<meta charset="ISO-8859-1">
-<title>Index</title>
-</head>
-
-<body>
-
-</body>
-
+   <head>
+      
+      <script type="text/javascript">
+         <!--
+            function RedirectRegister() {
+               window.location="http://localhost:8080/auctionSystem/register.jsp";
+            }
+            function RedirectLogin() {
+               window.location="http://localhost:8080/auctionSystem/login.jsp";
+            }
+         //-->
+      </script>
+      
+   </head>
+   
+   <body>
+      <p>Click a button, to login or register.</p>
+      
+      <form>
+         <input type="button" value="Register" onclick="RedirectRegister();" />
+         <input type="button" value = "Login" onclick ="RedirectLogin();"/>
+      </form>
+      
+   </body>
 </html>
