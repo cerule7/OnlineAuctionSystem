@@ -42,7 +42,12 @@
 			out.print("</p>");
 		} else {
 			out.print("<p>");
-			out.print("Hi " + username + "!");
+			//this gets the usertype
+			String type = result.getString(4);
+			//adds username and user type to the session
+			session.setAttribute("username", username);
+			session.setAttribute("usertype", type);
+			out.print("Hi " + (String) session.getAttribute("username") + "!");
 			out.print("</p>");
 		}
 		
