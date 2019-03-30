@@ -12,12 +12,23 @@
       <p>
       
       <form>
-        <a href="register.jsp"> Register </a>
         <p>
-        <a href="login.jsp"> Login </a>
+         <% if(session.getAttribute("username") == null){
+        	 out.print("<a href=\"login.jsp\"> Login </a>"); 
+        	 out.print("<p>");
+        	 out.print("<a href=\"register.jsp\"> Register </a>");
+         }
+        	 %>
         <p>
-        <a href="logout.jsp"> Log out </a>
+        <% if(session.getAttribute("username") != null) out.print("<a href=\"logout.jsp\"> Log out </a>"); %>
+        <p>
+        <% if (session.getAttribute("usertype") != null && ((String) session.getAttribute("usertype")).equals("admin")){
+    	    out.print("<a href=\"makerep.jsp\"> Make customer representative accounts </a>");  
+      	}
+    	%>
       </form>
+      
+
       
    </body>
 </html>

@@ -48,6 +48,8 @@
 			session.setAttribute("username", username);
 			session.setAttribute("usertype", type);
 			out.print("Hi " + (String) session.getAttribute("username") + "!");
+			out.print("<p>");
+			out.print("You are a " + (String) session.getAttribute("usertype"));
 			out.print("</p> <p>");
 			out.print("<a href=\"index.jsp\"> Return to index </a>");
 		}
