@@ -21,9 +21,6 @@
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
-		//Create a SQL statement
-		Statement stmt = con.createStatement();
-
 		//Get parameters from the HTML form at login.jsp
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
