@@ -35,11 +35,15 @@ try {
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
+	System.out.println(request.getParameter("hidden_isbn") + " " + request.getParameter("author") + " " +  request.getParameter("title") + " " + request.getParameter("num_pages"));
+
+	
 	//Get parameters from the HTML form at the register.jsp
 	int isbn = Integer.parseInt(request.getParameter("hidden_isbn"));
 	String author = request.getParameter("author");
 	String title = request.getParameter("title");
 	int num_pages = Integer.parseInt(request.getParameter("num_pages"));
+	
 	double startprice = Float.parseFloat(request.getParameter("startprice"));
 	double minprice = Float.parseFloat(request.getParameter("minprice"));
 	double minincrement =  Float.parseFloat(request.getParameter("minincrement"));
@@ -64,6 +68,13 @@ try {
 		ps.setInt(6, num_pages);
 		//Run the query against the DB
 		ps.executeUpdate();
+		
+		String has_insert = "INSERT INTO Has(subcat_name, itemID)" + "VALUES (?, ?)";
+		PreparedStatement ps9 = con.prepareStatement(has_insert);
+		ps9.setString(1, genre);
+		ps9.setInt(2, isbn);
+		ps9.executeUpdate();
+		
 	} else genre = (String) request.getParameter("hidden_genre");
 	
 	int auctionID = 1;
@@ -72,7 +83,7 @@ try {
 	ResultSet res = stmt.executeQuery();
 	
 	if(res.next() != false){
-		auctionID = res.getInt(9) + 1;
+		auctionID = res.getInt("auctionID") + 1; 
 	}
 
 	//Make an insert statement for the auction table:
@@ -94,6 +105,13 @@ try {
 	//Run the query against the DB
 	ps2.executeUpdate();
 
+	String insert3 = "INSERT INTO Creates(auctionID, username)" + "VALUES(?, ?)";
+	PreparedStatement ps3 = con.prepareStatement(insert3);
+	
+	ps3.setInt(1, auctionID);
+	ps3.setString(2, userID);
+	ps3.executeUpdate();
+	
 	//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 	con.close();
 

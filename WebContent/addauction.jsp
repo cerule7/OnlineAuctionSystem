@@ -10,6 +10,9 @@
 </head>
 <body>
 
+<div>
+<form  method="post" action="postauction.jsp">
+
 <%
 	try {
 
@@ -54,8 +57,7 @@
 		//Close the connection
 		con.close();
 		
-		out.print("<div>");
-		out.print("<form  method=\"post\" action=\"postauction.jsp\">");
+
 		out.print("<input type=\"hidden\" name=\"hidden_isbn\" value=" + isbn + ">");
 		if(found){
 			out.print("<p>");
@@ -67,10 +69,10 @@
 			out.print("<p>");
 			out.print("Genre: " + genre);
 			out.print("<p>");
-			out.print("<input type=\"hidden\" name=\"num_pages\" value=\"num_pages\">");
-			out.print("<input type=\"hidden\" name=\"hidden_genre\" value=\"genre\">");
-			out.print("<input type=\"hidden\" name=\"author\" value=\"author\">");
-			out.print("<input type=\"hidden\" name=\"title\" value=\"title\">");
+			out.print("<input type=\"hidden\" name=\"num_pages\" value=\"" + num_pages + "\"/>");
+			out.print("<input type=\"hidden\" name=\"hidden_genre\" value=\"" + genre + "\"/>");
+			out.print("<input type=\"hidden\" name=\"author\" value=\"" + author +  "\"/>");
+			out.print("<input type=\"hidden\" name=\"title\" value=\"" + title + "\"/>");
 		} else {
 			out.print("<br>");
 			out.print("Author: ");
@@ -84,39 +86,41 @@
 			out.print("<br>");
 			out.print("Genre: ");
 			out.print("<select name=\"genre\">");
-				out.print("<option value=\"biography\">Biography</option>");
-				out.print("<option value=\"classics\">Classics</option>");
-				out.print("<option value=\"graphic_novel\">Graphic Novel</option>");
-				out.print("<option value=\"history\">History</option>");
-				out.print("<option value=\"horror\">Horror</option>");
-				out.print("<option value=\"poetry\">Poetry</option>");
-				out.print("<option value=\"sci_fi\">Sci-fi</option>");
+				out.print("<option value=\"Biography\">Biography</option>");
+				out.print("<option value=\"Classics\">Classics</option>");
+				out.print("<option value=\"History\">History</option>");
+				out.print("<option value=\"Horror\">Horror</option>");
+				out.print("<option value=\"Poetry\">Poetry</option>");
+				out.print("<option value=\"Sci-fi\">Sci-fi</option>");
 			out.print("</select>");
 		}
-		
-		out.print("<br>");
-		out.print("Starting price: <input name=\"startprice\" type=\"number\" min=\"0.01\" />");
-		out.print("<br>");
-		out.print("Minimum price: <input name=\"minprice\" type=\"number\" min=\"0.01\" />"); 
-		out.print("<br>");
-		out.print("Minimum increment: <input name=\"minincrement\" type=\"number\" min=\"0.01\"/> ");
-		out.print("<br>");
-		out.print("Start date (YYYY-MM-DD): <input name=\"start_date\" pattern=\"[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\" type=\"text\"/>");
-		out.print("<br>");
-		out.print("Start time (HH:MM:SS): <input name=\"start_time\" pattern=\"[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\" type=\"text\"/>");
-		out.print("<br>");
-		out.print("End date (YYYY-MM-DD): <input name=\"end_date\" pattern=\"[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\" type=\"text\"/>");
-		out.print("<br>");
-		out.print("End time (HH:MM:SS): <input name=\"end_time\" pattern=\"[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\" type=\"text\"/>");
-		out.print("<br>");
-		out.print("<input type=\"submit\" value=\"submit\"/>");
-		out.print("</form>");
-		out.print("</div>");
 		
 	} catch (Exception ex) {
 		out.print(ex);
 	}
 %>
+
+<br>
+Starting price: <input name="startprice" pattern="^\d*(\.\d{0,2})?$" />
+<br>
+Minimum price: <input name="minprice" pattern="^\d*(\.\d{0,2})?$" />
+<br>
+Minimum increment: <input name="minincrement" pattern="^\d*(\.\d{0,2})?$" />
+<br>
+Start date (YYYY-MM-DD): <input name="start_date" pattern="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]" type="text"/>
+<br>
+Start time (HH:MM:SS): <input name="start_time" pattern="[0-9][0-9]:[0-9][0-9]:[0-9][0-9]" type="text"/>
+<br>
+End date (YYYY-MM-DD): <input name="end_date" pattern="[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]" type="text"/>
+<br>
+End time (HH:MM:SS): <input name="end_time" pattern="[0-9][0-9]:[0-9][0-9]:[0-9][0-9]" type="text"/>
+<br>
+
+<input type="submit" value="submit"/>
+</form>
+
+
+</div>
 
 </body>
 </html>
