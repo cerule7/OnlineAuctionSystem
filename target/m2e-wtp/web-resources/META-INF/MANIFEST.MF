@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: OnlineAuctionSystem
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Chris 789x
+Implementation-Vendor-Id: com.Group21
+Build-Jdk: 1.8.0_201
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/OnlineAuctionSystem
+Created-By: Maven Integration for Eclipse
+
