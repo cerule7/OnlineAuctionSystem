@@ -16,8 +16,8 @@
 double startprice = Float.parseFloat(request.getParameter("startprice"));
 double minprice = Float.parseFloat(request.getParameter("minprice"));
 double minincrement =  Float.parseFloat(request.getParameter("minincrement"));
-String start_date_time =  request.getParameter("start_date") + "T" + request.getParameter("start_time");
-String end_date_time = request.getParameter("end_date") + "T" + request.getParameter("end_time");
+String start_date_time =  request.getParameter("start_date").substring(0, 10) + "T" + request.getParameter("start_time").substring(11);
+String end_date_time = request.getParameter("end_date").substring(0, 10)  + "T" + request.getParameter("end_time").substring(11);
 
 LocalDateTime start, end;
 
