@@ -24,6 +24,8 @@
         	out.print("<a href=\"logout.jsp\"> Log out </a>"); 
         	out.print("<p>");
         	out.print("<a href=\"auctionstart.jsp\"> Post auction </a>");
+        	out.print("<p>");
+        	out.print("<a href=\"myauctions.jsp\"> My auctions </a>");
         } %>
         <p>
         <% if (session.getAttribute("usertype") != null && ((String) session.getAttribute("usertype")).equals("admin")){

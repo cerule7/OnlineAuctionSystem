@@ -16,8 +16,8 @@
 double startprice = Float.parseFloat(request.getParameter("startprice"));
 double minprice = Float.parseFloat(request.getParameter("minprice"));
 double minincrement =  Float.parseFloat(request.getParameter("minincrement"));
-String start_date_time =  request.getParameter("start_date") + "T" + request.getParameter("start_time");
-String end_date_time = request.getParameter("end_date") + "T" + request.getParameter("end_time");
+String start_date_time =  request.getParameter("start_date").substring(0, 10) + "T" + request.getParameter("start_time").substring(11);
+String end_date_time = request.getParameter("end_date").substring(0, 10)  + "T" + request.getParameter("end_time").substring(11);
 
 LocalDateTime start, end;
 
@@ -56,7 +56,7 @@ if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 		
 		//Get parameters from the HTML form at the register.jsp
-		int isbn = Integer.parseInt(request.getParameter("hidden_isbn"));
+		String isbn = request.getParameter("hidden_isbn");
 		String author = request.getParameter("author");
 		String title = request.getParameter("title");
 		int num_pages = Integer.parseInt(request.getParameter("num_pages"));
@@ -74,7 +74,7 @@ if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter
 			ps.setString(1, title);
 			ps.setString(2, author);
 			ps.setInt(3, 0);
-			ps.setInt(4, isbn);
+			ps.setString(4, isbn);
 			ps.setString(5, genre);
 			ps.setInt(6, num_pages);
 			//Run the query against the DB
@@ -83,7 +83,7 @@ if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter
 			String has_insert = "INSERT INTO Has(subcat_name, itemID)" + "VALUES (?, ?)";
 			PreparedStatement ps9 = con.prepareStatement(has_insert);
 			ps9.setString(1, genre);
-			ps9.setInt(2, isbn);
+			ps9.setString(2, isbn);
 			ps9.executeUpdate();
 			
 		} else genre = (String) request.getParameter("hidden_genre");
@@ -110,7 +110,7 @@ if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter
 		ps2.setDouble(4, minincrement);
 		ps2.setString(5, end_date_time);
 		ps2.setString(6, start_date_time);
-		ps2.setInt(7, isbn);
+		ps2.setString(7, isbn);
 		ps2.setString(8, title);
 		ps2.setInt(9, auctionID);
 		//Run the query against the DB
@@ -122,6 +122,13 @@ if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter
 		ps3.setInt(1, auctionID);
 		ps3.setString(2, userID);
 		ps3.executeUpdate();
+		
+		String insert4 = "INSERT INTO Is_for(auctionID, itemID)" + "VALUES(?,?)";
+		PreparedStatement ps4 = con.prepareStatement(insert4);
+		
+		ps4.setInt(1, auctionID);
+		ps4.setString(2, isbn);
+		ps4.executeUpdate();
 		
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();

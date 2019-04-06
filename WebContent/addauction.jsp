@@ -57,7 +57,6 @@
 		//Close the connection
 		con.close();
 		
-
 		out.print("<input type=\"hidden\" name=\"hidden_isbn\" value=" + isbn + ">");
 		if(found){
 			out.print("<p>");
