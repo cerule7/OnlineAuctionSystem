@@ -69,21 +69,19 @@ double current_bid;
 double min_bid; 
 
 if(result3.first() == false){
-	current_bid = start_price + min_increment;
+	current_bid = Math.round((start_price + min_increment) * 100.00) / 100.00F;
 	min_bid = current_bid;
 	out.print("<p> Nobody has bid on this item yet! <p>");
-	out.print("Bidding starts at $" + current_bid);
+	out.print("Bidding starts at $" + String.format("%.2f", current_bid));
 } else {
 	current_bid = result3.getDouble("bid");
-	min_bid = current_bid + min_increment;
-	out.print("Current bid: " + current_bid);
+	min_bid = Math.round((current_bid + min_increment) * 100.00) / 100.00F;
+	out.print("<p> Current bid: $" + String.format("%.2f", current_bid));
 	out.print("<br>");
-	out.print("You must bid at least " + min_bid);
+	out.print("You must bid at least $" + String.format("%.2f", min_bid));
 }
 
 String username = (String) session.getAttribute("username");
-
-System.out.println("USER ID " + username + "SELLER ID " + sellerID);
 
 if(username == null){
 	out.print("<br> You must be logged in to bid on an item. <br>");

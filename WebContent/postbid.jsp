@@ -12,18 +12,30 @@
 
 <%
 
+double auto_increment = 0;
+double upper_limit = 0;
+
 double bid = Double.parseDouble(request.getParameter("bid"));
 double min_bid = Double.parseDouble(request.getParameter("min_bid"));
-double auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
+if(!request.getParameter("auto_increment").isEmpty()) {
+	auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
+}
+if(!request.getParameter("upper_limit").isEmpty()) {
+	upper_limit = Double.parseDouble(request.getParameter("upper_limit"));
+}
 double min_increment = Double.parseDouble(request.getParameter("min_increment"));
-double upper_limit = Double.parseDouble(request.getParameter("upper_limit"));
 int auctionID = Integer.parseInt(request.getParameter("auctionID"));
 String userID = (String) session.getAttribute("username");
-String date_time = request.getParameter("date_time") + "T" + request.getParameter("date_time");
+String date_time = request.getParameter("date_time").substring(0, 10) + "T" + request.getParameter("date_time").substring(11, 19);
 
+System.out.println(date_time);
 
 if(bid < min_bid) {
-	out.print("You must bid at least " + min_bid + "! <p>");
+	out.print("You must bid at least " + String.format("%.2f", min_bid) + "! <p>");
+	out.print("<form  method=\"get\" action=\"auction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.print("<input type=\"submit\" value=\"Return to auction\"/>");
+	out.print("</form>");
 	return;
 }
 
@@ -41,7 +53,7 @@ Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 
 //manual bid
 if(auto_increment == 0){
-String insert = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit"
+String insert = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
 		+ "VALUES (?, ?, ?, ?, ?, ?)";
 PreparedStatement ps = con.prepareStatement(insert);
 ps.setString(1, userID);
@@ -49,15 +61,21 @@ ps.setInt(2, auctionID);
 ps.setDouble(3, bid);
 ps.setDouble(4, 0.00);
 ps.setString(5, date_time);
-ps.setDouble(5, 0.00);
+ps.setDouble(6, 0.00);
 ps.executeUpdate();
 
 con.close();
 out.print("Bid successful!");
 }
 
+out.print("<form  method=\"get\" action=\"auction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.print("<input type=\"submit\" value=\"Return to auction\"/>");
+out.print("</form>");
 
 %>
+
+<p> 
 
 </body>
 </html>
