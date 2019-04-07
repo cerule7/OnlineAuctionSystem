@@ -142,6 +142,23 @@ out.print("<h3> Questions about this item: </h3>");
 //Vlad works his magic here
 
 %>
-
+<% //Statement sta = con.createStatement(); 
+	PreparedStatement sta = con.prepareStatement("SELECT * FROM Question WHERE itemID=?");
+	sta.setString(1, itemID);
+      ResultSet res = sta.executeQuery();
+      while (res.next()) {
+        out.print(res.getString("question"));
+      }
+      out.print("<h3> Submit Question: </h3>");
+           
+%>
+<div>
+<form>
+	<br>
+  <input type="text">
+  <br>
+  <input type="submit" value="Submit">
+</form></div>
+<%con.close(); %>
 </body>
 </html>
