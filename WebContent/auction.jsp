@@ -58,15 +58,42 @@ out.print("Author: " + author + "<br>");
 out.print("Genre: " + genre + " <br>");
 out.print("Number of pages: " + String.valueOf(numpages)+ " <br>");
 out.print("Sold by: " + sellerID + "<br>"); //this will be updated to link to the seller's profile
+
+if(LocalDateTime.now().isAfter(end)){
+	int is_over = result.getInt("is_over");
+	if(is_over == 0){
+		PreparedStatement q8 = con.prepareStatement("UPDATE Auction SET is_over=1 WHERE auctionID=?");
+		q8.setInt(1, auctionID);
+		q8.executeUpdate();
+		int total_sales = result2.getInt("total_sales");
+		PreparedStatement q9 = con.prepareStatement("UPDATE Item SET total_sales=? WHERE itemID=?");
+		q9.setInt(1, total_sales + 1);
+		q9.setString(2, itemID);
+		q9.executeUpdate();
+	}
+	PreparedStatement q33 = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=? ORDER BY bid DESC LIMIT 1");
+	q33.setInt(1, auctionID);
+	ResultSet result33 = q33.executeQuery();
+	if(result33.first() == false){
+	  out.print("<p> Nobody won this item. <p>");
+	} else {
+		double current_bid2 = result33.getDouble("bid");
+		String winner = result33.getString("username");
+		out.print("<p> The winner was " + winner + " with a bid of $" + String.format("%.2f", current_bid2));
+	} 
+	return;
+}
+
 out.print("Auction ends at: " + result.getString("end_date_time").substring(0, 10) + " " + result.getString("end_date_time").substring(11, result.getString("end_date_time").length() - 2));
 
 //get the highest (current) bid
-PreparedStatement q3 = con.prepareStatement("SELECT bid FROM Bids_on WHERE auctionID=? ORDER BY bid DESC LIMIT 1");
+PreparedStatement q3 = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=? ORDER BY bid DESC LIMIT 1");
 q3.setInt(1, auctionID);
 ResultSet result3 = q3.executeQuery();
 
 double current_bid;
 double min_bid; 
+String currentwinner = "";
 
 if(result3.first() == false){
 	current_bid = Math.round((start_price + min_increment) * 100.00) / 100.00F;
@@ -75,10 +102,9 @@ if(result3.first() == false){
 	out.print("Bidding starts at $" + String.format("%.2f", current_bid));
 } else {
 	current_bid = result3.getDouble("bid");
+	currentwinner = result3.getString("username");
 	min_bid = Math.round((current_bid + min_increment) * 100.00) / 100.00F;
 	out.print("<p> Current bid: $" + String.format("%.2f", current_bid));
-	out.print("<br>");
-	out.print("You must bid at least $" + String.format("%.2f", min_bid));
 }
 
 String username = (String) session.getAttribute("username");
@@ -87,7 +113,11 @@ if(username == null){
 	out.print("<br> You must be logged in to bid on an item. <br>");
 } else if(username.equals(sellerID)){
 	out.print("<p>");
+} else if(username.equals(currentwinner)){
+	out.print("<p> Your bid is currently the highest bid! <p>");
 } else {
+	out.print("<br>");
+	out.print("You must bid at least $" + String.format("%.2f", min_bid));
 	out.print("<br>");
 	out.print("<form  method=\"post\" action=\"postbid.jsp\">");
 	String regex = "^\\d*(\\.\\d{0,2})?$";
