@@ -32,6 +32,8 @@
 		return;
 	} 
 	
+	result.absolute(0);
+	
 	while(result.next()){
 		String auctionID = String.valueOf(result.getInt("auctionID"));
 		String item_name = result.getString("item_name");
