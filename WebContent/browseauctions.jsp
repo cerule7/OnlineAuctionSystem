@@ -39,14 +39,7 @@
 			
 			out.println("<hr>");
 			double highest = 0;
-			for(int i=0; i<15; i++){
-				// If we reach the end of the auction query
-				if(!resulta.next()){
-					out.print("<p style=\"font-size:13px; text-align:center;\"> " +
-							  "You've reached the end of the auctions list.</p>");
-					break;
-				}
-				
+			while(resulta.next()){
 				// Prepare query for fetching current auction's bids.
 				ResultSet resultb = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=" 
 					+ resulta.getInt(9)).executeQuery();
@@ -74,6 +67,8 @@
 				// Reset highest bid pointer
 				highest = 0;
 			}
+			out.print("<p style=\"font-size:13px; text-align:center;\"> " +
+					  "You've reached the end of the auctions list.</p>");
 		} catch (Exception e){
 			e.printStackTrace();
 		}
