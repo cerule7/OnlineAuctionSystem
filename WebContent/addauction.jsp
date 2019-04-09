@@ -57,7 +57,6 @@
 		//Close the connection
 		con.close();
 		
-
 		out.print("<input type=\"hidden\" name=\"hidden_isbn\" value=" + isbn + ">");
 		if(found){
 			out.print("<p>");
@@ -76,10 +75,10 @@
 		} else {
 			out.print("<br>");
 			out.print("Author: ");
-			out.print("<input name=\"author\" type=\"text\"");
+			out.print("<input name=\"author\" type=\"text\" maxlength=\"99\"");
 			out.print("<br>");
 			out.print("Title: ");
-			out.print("<input name=\"title\" type=\"text\"");
+			out.print("<input name=\"title\" type=\"text\" maxlength=\"99\"");
 			out.print("<br>");
 			out.print("Number of pages: ");
 			out.print("<input name=\"num_pages\" type=\"number\"");

@@ -39,12 +39,14 @@
 						"</fieldset>" +
 						"</form>");
         	*/
+          
+        	out.print("<p>");
+        	out.print("<a href=\"myauctions.jsp\"> My auctions </a>");
         } %>
         <p>
         <% if (session.getAttribute("usertype") != null && ((String) session.getAttribute("usertype")).equals("admin")){
     	    out.print("<a href=\"makerep.jsp\"> Make customer representative accounts </a>");  
-      	}
-    	%>
+      	} %>
       </form>
       
 

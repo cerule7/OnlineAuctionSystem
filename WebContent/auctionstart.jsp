@@ -12,7 +12,7 @@
 	<br>
 	<form  method="post" action="addauction.jsp">
 	<br>
-	ISBN: <input name="isbn" type="text"/>
+	ISBN (10 numbers under the book's bar code): <input name="isbn" type="text" maxlength="10" pattern="[0-9]{10}"/>
 	<br>
 	<input type="submit" value="submit"/>
 	</form>
