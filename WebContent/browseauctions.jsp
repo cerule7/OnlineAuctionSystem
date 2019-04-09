@@ -20,7 +20,9 @@
 				<option value="min_increment">Minimum Price Increment</option>
 				<option value="start_date_time">Auction Start Date</option>
 				<option value="auctionID">Auction ID</option>
-				<option value="item_name">Item Name</option>
+				<option value="item_name">Book Name</option>
+				<option value="genre">Genre</option>
+				
 			</select>
 			<select name="order">
 				<option value="ASC">Ascending</option>
@@ -36,10 +38,22 @@
 			String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
 			Class.forName("com.mysql.jdbc.Driver");		
 			ApplicationDB db = new ApplicationDB();	
-			Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
+			Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 			
 			// Prepare query for displaying auctions.
-			ResultSet resulta = con.prepareStatement("SELECT * FROM Auction").executeQuery();
+			String criteria = request.getParameter("criteria");
+			String order = request.getParameter("order");
+			// The criteria string will be null if users do not select a sorting option.
+			// The criteria string will also be null when the user initially visits the page.
+			if(criteria == null){
+				criteria = "auctionID";
+			}
+			// The order string follows the same pattern.
+			if(order == null){
+				order = "ASC";
+			}
+			ResultSet resulta = con.prepareStatement("SELECT * FROM Auction ORDER BY " +
+			criteria + " " + order).executeQuery();
 			
 			/* Auction table reference:
 				CREATE TABLE Auction(
