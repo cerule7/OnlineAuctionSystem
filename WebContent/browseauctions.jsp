@@ -26,6 +26,7 @@
 				<option value="ASC">Ascending</option>
 				<option value="DESC">Descending</option>
 			</select>
+			<input type="submit" value="Sort">
 		</fieldset>
 	</form>
 

@@ -11,9 +11,6 @@
 
 <body>
 <%
-	// Present form to sort by different criteria
-	out.print("");
-
 
 	try {
 
