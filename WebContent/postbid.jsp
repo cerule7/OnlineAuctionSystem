@@ -17,12 +17,16 @@ double upper_limit = 0;
 
 double bid = Double.parseDouble(request.getParameter("bid"));
 double min_bid = Double.parseDouble(request.getParameter("min_bid"));
+
+//i.e. not an auto bid 
 if(!request.getParameter("auto_increment").isEmpty()) {
 	auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
 }
+
 if(!request.getParameter("upper_limit").isEmpty()) {
 	upper_limit = Double.parseDouble(request.getParameter("upper_limit"));
 }
+
 double min_increment = Double.parseDouble(request.getParameter("min_increment"));
 int auctionID = Integer.parseInt(request.getParameter("auctionID"));
 String userID = (String) session.getAttribute("username");
@@ -51,22 +55,55 @@ Class.forName("com.mysql.jdbc.Driver");
 ApplicationDB db = new ApplicationDB();	
 Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
-//manual bid
-if(auto_increment == 0){
 String insert = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
 		+ "VALUES (?, ?, ?, ?, ?, ?)";
 PreparedStatement ps = con.prepareStatement(insert);
 ps.setString(1, userID);
 ps.setInt(2, auctionID);
 ps.setDouble(3, bid);
-ps.setDouble(4, 0.00);
+ps.setDouble(4, auto_increment);
 ps.setString(5, date_time);
-ps.setDouble(6, 0.00);
+ps.setDouble(6, upper_limit);
 ps.executeUpdate();
+
+//find all the autobids
+String q = "SELECT * FROM Bids_on WHERE auctionID=? AND autoIncrement_amount != 0 AND upper_limit < ? ORDER BY date_time DESC";
+PreparedStatement ps2 = con.prepareStatement(q);
+ps2.setInt(1, auctionID);
+ps2.setDouble(2, (bid + min_increment));
+ResultSet result = ps2.executeQuery();
+
+
+//go through all the autobids (oldest to newest)
+if(result.first() != false){
+	result.absolute(0);
+	//the highest bid so far
+	double current_highest = bid;
+	while(result.next()){
+			double my_auto_increment = result.getDouble("autoIncrement_amount");
+			String my_userID = result.getString("username");
+			double my_limit = result.getDouble("upper_limit");
+			double my_bid = current_highest + my_auto_increment;
+			String my_date = LocalDateTime.now().toString().substring(0, 10) + "T" + LocalDateTime.now().toString().substring(11, 19);
+			
+			//make auto bid
+			String insert2 = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
+					+ "VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement ps3 = con.prepareStatement(insert2);
+			ps3.setString(1, my_userID);
+			ps3.setInt(2, auctionID);
+			ps3.setDouble(3, my_bid);
+			ps3.setDouble(4, my_auto_increment);
+			ps3.setString(5, my_date);
+			ps3.setDouble(6, my_limit);
+			ps3.executeUpdate();
+			
+			current_highest = bid;
+	}
+}
 
 con.close();
 out.print("Bid successful!");
-}
 
 out.print("<form  method=\"get\" action=\"auction.jsp\">");
 	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
