@@ -15,16 +15,35 @@
 double auto_increment = 0;
 double upper_limit = 0;
 
-double bid = Double.parseDouble(request.getParameter("bid"));
+double bid = 0;
 double min_bid = Double.parseDouble(request.getParameter("min_bid"));
 
-//i.e. not an auto bid 
-if(!request.getParameter("auto_increment").isEmpty()) {
-	auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
+if(request.getParameter("bid").isEmpty() && request.getParameter("auto_increment").isEmpty()){
+	out.print("You must enter a manual or automatic bid.");
+	return;
 }
 
-if(!request.getParameter("upper_limit").isEmpty()) {
-	upper_limit = Double.parseDouble(request.getParameter("upper_limit"));
+if(!request.getParameter("bid").isEmpty() && !request.getParameter("auto_increment").isEmpty()){
+	out.print("You cannot enter a manual bid and an auto bid at the same time");
+	return;
+}
+
+//manual bid
+if(!request.getParameter("bid").isEmpty()) {
+	 bid = Double.parseDouble(request.getParameter("bid"));
+}
+
+//auto bid 
+if(!request.getParameter("auto_increment").isEmpty()) {
+	auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
+	if(!request.getParameter("upper_limit").isEmpty()) {
+		upper_limit = Double.parseDouble(request.getParameter("upper_limit"));
+	}
+	bid = min_bid + auto_increment;
+	if(upper_limit != 0 && bid > upper_limit){
+		out.print("Your automatic bid is higher than your upper limit.");
+		return;
+	}
 }
 
 double min_increment = Double.parseDouble(request.getParameter("min_increment"));
@@ -34,7 +53,7 @@ String date_time = request.getParameter("date_time").substring(0, 10) + "T" + re
 
 System.out.println(date_time);
 
-if(bid < min_bid) {
+if(auto_increment == 0 && bid < min_bid) {
 	out.print("You must bid at least " + String.format("%.2f", min_bid) + "! <p>");
 	out.print("<form  method=\"get\" action=\"auction.jsp\">");
 	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
@@ -44,7 +63,7 @@ if(bid < min_bid) {
 }
 
 if(auto_increment != 0 && auto_increment < min_increment) {
-	out.print("Your auto increment must be at least " + min_increment + "! <p>");
+	out.print("Your auto increment must be at least " + String.format("%.2f", min_increment) + "! <p>");
 	return;
 }
 
@@ -67,10 +86,11 @@ ps.setDouble(6, upper_limit);
 ps.executeUpdate();
 
 //find all the autobids
-String q = "SELECT * FROM Bids_on WHERE auctionID=? AND autoIncrement_amount != 0 AND upper_limit < ? ORDER BY date_time DESC";
+String q = "SELECT * FROM Bids_on WHERE auctionID=? AND autoIncrement_amount != 0 AND upperLimit < ? AND username <> ? ORDER BY datetime DESC";
 PreparedStatement ps2 = con.prepareStatement(q);
 ps2.setInt(1, auctionID);
 ps2.setDouble(2, (bid + min_increment));
+ps2.setString(3, userID);
 ResultSet result = ps2.executeQuery();
 
 
@@ -82,9 +102,12 @@ if(result.first() != false){
 	while(result.next()){
 			double my_auto_increment = result.getDouble("autoIncrement_amount");
 			String my_userID = result.getString("username");
-			double my_limit = result.getDouble("upper_limit");
+			double my_limit = result.getDouble("upperLimit");
 			double my_bid = current_highest + my_auto_increment;
 			String my_date = LocalDateTime.now().toString().substring(0, 10) + "T" + LocalDateTime.now().toString().substring(11, 19);
+			
+			Thread.sleep(1000);
+			System.out.println("current highest " + current_highest + " this autobid of " + my_bid + " will be by " + my_userID);
 			
 			//make auto bid
 			String insert2 = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"

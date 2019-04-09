@@ -15,6 +15,14 @@
 
 <%
 	try {
+		
+		//Get parameters from the HTML form at auctionstart.jsp
+		String isbn = request.getParameter("isbn");
+		
+		if(isbn.length() !=  10){
+			out.print("The ISBN must be 10 numbers long.");
+			return;
+		}
 
 		//Get the database connection
 		String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
@@ -24,8 +32,7 @@
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
-		//Get parameters from the HTML form at auctionstart.jsp
-		String isbn = request.getParameter("isbn");
+
 		
 		//Find username and password 
 		PreparedStatement q = con.prepareStatement("SELECT * FROM Item WHERE itemID=?");

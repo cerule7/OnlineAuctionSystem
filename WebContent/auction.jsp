@@ -74,7 +74,7 @@ if(LocalDateTime.now().isAfter(end)){
 	PreparedStatement q33 = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=? ORDER BY bid DESC LIMIT 1");
 	q33.setInt(1, auctionID);
 	ResultSet result33 = q33.executeQuery();
-	if(result33.first() == false){
+	if(result33.first() == false || result33.getDouble("bid") < result.getDouble("min_price")){
 	  out.print("<p> Nobody won this item. <p>");
 	} else {
 		double current_bid2 = result33.getDouble("bid");
@@ -123,7 +123,7 @@ if(username == null){
 	String regex = "^\\d*(\\.\\d{0,2})?$";
 	out.print("Enter bid here: ");
 	out.print("<input name=\"bid\" type=\"text\" pattern=\"" + regex + "\"/>");
-	out.print("<p> If you want to create an automatic bid, enter the following information: <p>");
+	out.print("<p> If you want to create an automatic bid instead, enter the following information: <p>");
 	out.print("Automatic increment: ");
 	out.print("<input name=\"auto_increment\" type=\"text\" pattern=\"" + regex + "\"/>");
 	out.print("<p>Upper limit (enter 0.00 if none): ");
@@ -140,25 +140,26 @@ if(username == null){
 
 out.print("<h3> Questions about this item: </h3>");
 //Vlad works his magic here
-
 %>
-<% //Statement sta = con.createStatement(); 
+	<% //Statement sta = con.createStatement(); 
 	PreparedStatement sta = con.prepareStatement("SELECT * FROM Question WHERE itemID=?");
-	sta.setString(1, itemID);
-      ResultSet res = sta.executeQuery();
-      while (res.next()) {
-        out.print(res.getString("question"));
-      }
-      out.print("<h3> Submit Question: </h3>");
-           
-%>
-<div>
-<form>
-	<br>
-  <input type="text">
-  <br>
-  <input type="submit" value="Submit">
-</form></div>
-<%con.close(); %>
+		sta.setString(1, itemID);
+	      ResultSet res = sta.executeQuery();
+	      while (res.next()) {
+	        out.print(res.getString("question"));
+	      }
+	      out.print("<h3> Submit Question: </h3>");
+	           
+	%>
+	<div>
+		<form>
+		  <br>
+		  	<input type="text">
+		  <br>
+		  <input type="submit" value="Submit">
+		</form>
+	</div>
+	<%con.close();%>
+
 </body>
 </html>
