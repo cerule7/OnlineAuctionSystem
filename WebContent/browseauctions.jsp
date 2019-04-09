@@ -10,6 +10,25 @@
 <!-- Displays the current instance of the Auction table in cells separated by <hr> tags. -->
 </head>
 <body>
+
+	<!-- Form for sorting auction list -->
+	<form method="post" action="">
+		<fieldset>
+			<legend>Sort by:</legend>
+			<select name="criteria" size=1>
+				<option value="sellerID">Seller</option>
+				<option value="min_increment">Minimum Price Increment</option>
+				<option value="start_date_time">Auction Start Date</option>
+				<option value="auctionID">Auction ID</option>
+				<option value="item_name">Item Name</option>
+			</select>
+			<select name="order">
+				<option value="ASC">Ascending</option>
+				<option value="DESC">Descending</option>
+			</select>
+		</fieldset>
+	</form>
+
 	<%
 		try{
 			// Open the connection to the database.
@@ -69,6 +88,7 @@
 			}
 			out.print("<p style=\"font-size:13px; text-align:center;\"> " +
 					  "You've reached the end of the auctions list.</p>");
+			con.close();
 		} catch (Exception e){
 			e.printStackTrace();
 		}
