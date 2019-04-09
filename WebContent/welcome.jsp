@@ -11,6 +11,7 @@
 
 <body>
 <%
+
 	try {
 
 		//Get the database connection
@@ -18,7 +19,7 @@
 		//Get the database connection
 		Class.forName("com.mysql.jdbc.Driver");
 		
-		ApplicationDB db = new ApplicationDB();	
+		ApplicationDB db = new ApplicationDB();
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
 		//Get parameters from the HTML form at login.jsp
