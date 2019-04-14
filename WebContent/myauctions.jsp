@@ -26,7 +26,6 @@
 	
 	if(result.first() == false){
 		out.print("<p>");
-		out.print("<a href =\"postauction.jsp\">Post Auctions</a><p>");
 		out.print("You have not posted any auctions!");
 		out.print("<p>");
 		out.print("<a href=\"index.jsp\"> Return to index </a>");
