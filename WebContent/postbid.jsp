@@ -33,6 +33,12 @@ if(!request.getParameter("bid").isEmpty()) {
 	 bid = Double.parseDouble(request.getParameter("bid"));
 }
 
+String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
+//Get the database connection
+Class.forName("com.mysql.jdbc.Driver");
+ApplicationDB db = new ApplicationDB();	
+Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
+
 //auto bid 
 if(!request.getParameter("auto_increment").isEmpty()) {
 	auto_increment = Double.parseDouble(request.getParameter("auto_increment"));
@@ -42,6 +48,15 @@ if(!request.getParameter("auto_increment").isEmpty()) {
 	bid = min_bid + auto_increment;
 	if(upper_limit != 0 && bid > upper_limit){
 		out.print("Your automatic bid is higher than your upper limit.");
+		return;
+	}
+	String q1 = "SELECT * FROM Bids_on WHERE auctionID=? AND username =? AND autoIncrement_amount != 0";
+	PreparedStatement ps0 = con.prepareStatement(q1);
+	ps0.setInt(1, Integer.parseInt(request.getParameter("auctionID")));
+	ps0.setString(2, (String) session.getAttribute("username"));
+	ResultSet result = ps0.executeQuery();
+	if(result.next()){
+		out.print("You already made an auto-bid on this auction!");
 		return;
 	}
 }
@@ -67,12 +82,6 @@ if(auto_increment != 0 && auto_increment < min_increment) {
 	return;
 }
 
-String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
-//Get the database connection
-Class.forName("com.mysql.jdbc.Driver");
-		
-ApplicationDB db = new ApplicationDB();	
-Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
 String insert = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
 		+ "VALUES (?, ?, ?, ?, ?, ?)";
@@ -86,7 +95,7 @@ ps.setDouble(6, upper_limit);
 ps.executeUpdate();
 
 //find all the autobids
-String q = "SELECT * FROM Bids_on WHERE auctionID=? AND autoIncrement_amount != 0 AND upperLimit < ? AND username <> ? ORDER BY datetime DESC";
+String q = "SELECT * FROM Bids_on WHERE auctionID=? AND autoIncrement_amount != 0 AND upperLimit < ? AND username <> ? GROUP BY username ORDER BY datetime DESC";
 PreparedStatement ps2 = con.prepareStatement(q);
 ps2.setInt(1, auctionID);
 ps2.setDouble(2, (bid + min_increment));
@@ -106,22 +115,24 @@ if(result.first() != false){
 			double my_bid = current_highest + my_auto_increment;
 			String my_date = LocalDateTime.now().toString().substring(0, 10) + "T" + LocalDateTime.now().toString().substring(11, 19);
 			
-			Thread.sleep(1000);
-			System.out.println("current highest " + current_highest + " this autobid of " + my_bid + " will be by " + my_userID);
-			
-			//make auto bid
-			String insert2 = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
-					+ "VALUES (?, ?, ?, ?, ?, ?)";
-			PreparedStatement ps3 = con.prepareStatement(insert2);
-			ps3.setString(1, my_userID);
-			ps3.setInt(2, auctionID);
-			ps3.setDouble(3, my_bid);
-			ps3.setDouble(4, my_auto_increment);
-			ps3.setString(5, my_date);
-			ps3.setDouble(6, my_limit);
-			ps3.executeUpdate();
-			
-			current_highest = bid;
+			if(my_limit == 0.00 || my_bid <= my_limit){
+				Thread.sleep(1000);
+				System.out.println("current highest " + current_highest + " this autobid of " + my_bid + " will be by " + my_userID);
+				
+				//make auto bid
+				String insert2 = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"
+						+ "VALUES (?, ?, ?, ?, ?, ?)";
+				PreparedStatement ps3 = con.prepareStatement(insert2);
+				ps3.setString(1, my_userID);
+				ps3.setInt(2, auctionID);
+				ps3.setDouble(3, my_bid);
+				ps3.setDouble(4, my_auto_increment);
+				ps3.setString(5, my_date);
+				ps3.setDouble(6, my_limit);
+				ps3.executeUpdate();
+				
+				current_highest = bid;
+			}
 	}
 }
 
