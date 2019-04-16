@@ -43,7 +43,7 @@
 			// Prepare query for displaying auctions.
 			String criteria = request.getParameter("criteria");
 			String order = request.getParameter("order");
-			// The criteria string will be null if users do not select a sorting option.
+			// The criteria string will be null if users do not click the sorting button.
 			// The criteria string will also be null when the user initially visits the page.
 			if(criteria == null){
 				criteria = "auctionID";
@@ -55,24 +55,11 @@
 			ResultSet resulta = con.prepareStatement("SELECT * FROM Auction ORDER BY " +
 			criteria + " " + order).executeQuery();
 			
-			/* Auction table reference:
-				CREATE TABLE Auction(
-    				start_price Double NOT NULL,
-    				min_price Double,
-    				sellerID Int NOT NULL,
-    				min_increment Double NOT NULL,
-    				end_date_time DateTime NOT NULL,
-    				start_date_time DateTime NOT NULL,
-    				itemID int NOT NULL,
-    				item_name char(20) NOT NULL,
-    				auctionID int,
-    				primary key(auctionID),
-          			foreign key(itemID, item_name) references Item(itemID, item_name) ON DELETE CASCADE ON UPDATE CASCADE
-				);			
-			*/
-			
 			out.println("<hr>");
 			double highest = 0;
+			String buyer = "N/A";
+			
+			// Display the list of all auctions.
 			while(resulta.next()){
 				// Prepare query for fetching current auction's bids.
 				ResultSet resultb = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=" 
@@ -83,24 +70,34 @@
 				while(resultb.next()){
 					if(resultb.getDouble(3) > highest){
 						highest = resultb.getDouble(3);
+						buyer = resultb.getString(1);
 					}
 				}
 				
-				// Display the current Auction tuple as a cell
+				// Display the current iteration's Auction information the user.
 				out.println("<h4>"+ resulta.getString(8) +"</h4>"); // Item name
 				out.println("<h5> Auction ID: "+ resulta.getString(9) +"</h5>");
 				out.println("<p>" + 
 							"Sold by " + resulta.getString(3) + "<br>" +
-							"Current bid: $" + String.format("%.2f", highest) + "<br>" +
+							"Current bid: $" + String.format("%.2f", highest) + " by "+ buyer + "<br>" +
 							"Minimum bid increment: $" + String.format("%.2f", resulta.getDouble(4)) + "<br>" +
 							"Start Date: " + resulta.getString(6) + "<br>" +
 							"End Date: " + resulta.getString(5) + "<br>" +
-							"</p>");
+							"</p>" +
+							"View Seller" + "<br>"); // Create link to user here.
+				
+				// Show options to view histories/profiles only if there exists at least 1 bid.
+				if(!buyer.equals("N/A")){
+					out.print("View Bid History" + "<br>" + // Create link to bidhistory.jsp here.
+							  "View Current Bidder" + "<br>" ); // Create link to user here.
+				}
 				out.println("<hr>");
 				
-				// Reset highest bid pointer
+				// Reset highest bid and buyer variables for next loop iteration.
 				highest = 0;
+				buyer= "N/A";
 			}
+			
 			out.print("<p style=\"font-size:13px; text-align:center;\"> " +
 					  "You've reached the end of the auctions list.</p>");
 			con.close();
