@@ -52,55 +52,37 @@
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 			
-			
 			// Prepare the query for an SQL search.
 			String temp = request.getParameter("query");
-			String[] query;
-				if(temp != null){
-					query = temp.split(" ");
-				} else {
-					query = null;
-				}
+			String[] query = temp!= null ? temp.split(" ") : null;
 			String criteria = request.getParameter("criteria");
-				if(criteria == null){
-					criteria = "auctionID";
-				}
 			String orderCriteria = request.getParameter("orderCriteria");
-				if(orderCriteria == null){
-					orderCriteria = "auctionID";
-				}
 			String order = request.getParameter("order");
-				if(order == null){
-					order = "ASC";
-				}
+			// Values will null when the page initially loads; they must be initialized.
+			if(orderCriteria == null) orderCriteria = "auctionID";
+			if(criteria == null) criteria = "auctionID";
+			if(order == null) order = "ASC";
 			String sqlQuery = "SELECT DISTINCT * FROM Auction WHERE ";
 			
 			// The search algorithm is dependent on the type of criteria for proper querying.
-			if(criteria.equals("sellerID") || criteria.equals("item_name") ||
+			if(query == null) {
+				// When the page initially loads there is no query.
+				sqlQuery += criteria + " LIKE '%'";
+			} else if(query[0].equals("")) {
+				// Blank searches should just show all auctions.
+				sqlQuery += criteria + " LIKE '%'";
+			} else if(criteria.equals("sellerID") || criteria.equals("item_name") ||
 			   criteria.equals("genre")) {
 				sqlQuery += criteria + " LIKE '%" + String.join(" ", query) + "%'";
 				for(int i=0; i<query.length; i++) {
 					sqlQuery += " OR " + criteria + " LIKE '%" + query[i] + "%'";
 				}
 			} else if(criteria.equals("start_date_time")) {
-				if(query[0].equals("")) {
-					// Blank searches should just show all auctions.
-					sqlQuery += criteria + " LIKE '%'";
-				} else {
 					sqlQuery += criteria + " >= '" + query[0] + " 00:00:00'"
 							 + " OR " + criteria + " <= '" + query[0] + " 23:59:59'";
-				}
 			} else {
 				// min_increment or auctionID
-				if(query == null){
-					// When the page initially loads there is no query.
-					sqlQuery += criteria + " LIKE '%'";
-				} else if(query[0].equals("")) {
-					// Blank searches should just show all auctions.
-					sqlQuery += criteria + " LIKE '%'";
-				} else {
-					sqlQuery += criteria + " = '" + query[0] + "'";
-				}
+				sqlQuery += criteria + " = '" + query[0] + "'";
 			} 
 			sqlQuery += " ORDER BY " + orderCriteria + " " + order;
 			ResultSet result = con.prepareStatement(sqlQuery).executeQuery();
