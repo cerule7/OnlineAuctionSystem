@@ -13,7 +13,7 @@
 <!-- Search by form -->
 <form action="">
 	<fieldset>
-		<legend>Search the list of auctions</legend>
+		<legend>Search the list of auctions. Or, make a blank search to browse all auctions.</legend>
 		<input type="text" name="query">
 		<input type="submit" value="Search">
 		<br>
@@ -52,11 +52,27 @@
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 			
+			
 			// Prepare the query for an SQL search.
-			String[] query = request.getParameter("query").split(" ");
+			String temp = request.getParameter("query");
+			String[] query;
+				if(temp != null){
+					query = temp.split(" ");
+				} else {
+					query = null;
+				}
 			String criteria = request.getParameter("criteria");
+				if(criteria == null){
+					criteria = "auctionID";
+				}
 			String orderCriteria = request.getParameter("orderCriteria");
+				if(orderCriteria == null){
+					orderCriteria = "auctionID";
+				}
 			String order = request.getParameter("order");
+				if(order == null){
+					order = "ASC";
+				}
 			String sqlQuery = "SELECT DISTINCT * FROM Auction WHERE ";
 			
 			// The search algorithm is dependent on the type of criteria for proper querying.
@@ -76,7 +92,10 @@
 				}
 			} else {
 				// min_increment or auctionID
-				if(query[0].equals("")) {
+				if(query == null){
+					// When the page initially loads there is no query.
+					sqlQuery += criteria + " LIKE '%'";
+				} else if(query[0].equals("")) {
 					// Blank searches should just show all auctions.
 					sqlQuery += criteria + " LIKE '%'";
 				} else {
@@ -88,12 +107,10 @@
 			
 			// Display the search query result.
 			out.println("<hr>");
-			double highest = 0;
+			double highest = 0; // highest is used as a pointer in the while loop below.
 			String buyer = "N/A";
-			
-			// Display the list of all auctions. (copy/paste from browseauctions)
 			while(result.next()){
-				// Prepare query for fetching current auction's bids.
+				// Prepare query for fetching current auction's bid information.
 				ResultSet resultb = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=" 
 					+ result.getInt(9)).executeQuery();
 				
@@ -106,7 +123,7 @@
 					}
 				}
 				
-				// Display the current iteration's Auction information the user.
+				// Display the current while loop iteration's Auction information the user.
 				out.println("<h4>"+ result.getString(8) +"</h4>"); // Item name
 				out.println("<h5> Auction ID: "+ result.getString(9) +"</h5>");
 				out.println("<p>" + 
@@ -131,7 +148,7 @@
 			}
 			
 			out.print("<p style=\"font-size:13px; text-align:center;\"> " +
-					  "End of query.</p>");
+					  "End of list.</p>");
 			con.close();
 		}catch (Exception e) {
 			e.printStackTrace();

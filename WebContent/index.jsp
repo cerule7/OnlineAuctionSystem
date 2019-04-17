@@ -25,21 +25,7 @@
         	out.print("<p>");
         	out.print("<a href=\"auctionstart.jsp\"> Post auction </a>");
         	out.print("<br>");
-        	out.print("<a href=\"browseauctions.jsp\"> Browse auctions </a>");
-        	out.print("<br>");
-        	out.print("<a href=\"searchauctions.jsp\"> Search auctions </a>");
-        	
-        	// Search auctions form.
-        	/*
-        	out.print("<form action=\"searchauctions.jsp\">" +
-        				"<fieldset>" +
-						"<legend>Search the list of auctions</legend>" +
-						"<input type=\"text\" name=\"query\">" +
-						"<input type=\"submit\" value=\"Search\">" +
-						"</fieldset>" +
-						"</form>");
-        	*/
-          
+        	out.print("<a href=\"searchauctions.jsp\"> Search or Browse Auctions </a>");
         	out.print("<p>");
         	out.print("<a href=\"myauctions.jsp\"> My auctions </a>");
         } %>
