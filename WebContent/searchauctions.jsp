@@ -115,7 +115,10 @@
 							"Start Date: " + result.getString(6) + "<br>" +
 							"End Date: " + result.getString(5) + "<br>" +
 							"</p>" +
-							"View Seller" + "<br>"); // Create link to user here.
+							"<form method=\"post\" action=\"userauctions.jsp?username=" + result.getString(3) +"\" style=\"display: inline\">" +
+							"<input type=\"submit\" value=\"View Seller\">" + // Create link to user here.
+							"</form>" +
+							"<br>");
 				
 				// Show options to view histories/profiles only if there exists at least 1 bid.
 				if(!buyer.equals("N/A")){
