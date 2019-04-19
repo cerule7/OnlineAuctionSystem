@@ -10,9 +10,6 @@
 </head>
 
 <body>
-
-<h1> User's Auction History </h1>
-
 <%
 	String url = "jdbc:mysql://cs336db.cdyhppvxgk6o.us-east-2.rds.amazonaws.com/cs336db";
 	//Get the database connection
@@ -27,9 +24,11 @@
 	q.setString(1, sellerID);
 	ResultSet result = q.executeQuery();
 	
+	out.print("<h1>" + sellerID + "'s Auction History </h1>");
+	
 	if(result.first() == false){
 		out.print("<p>");
-		out.print("This user has not posted any auctions!");
+		out.print(sellerID + " has not posted any auctions!");
 		out.print("<p>");
 		out.print("<a href=\"index.jsp\"> Return to index </a>");
 		return;

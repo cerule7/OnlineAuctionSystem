@@ -19,11 +19,11 @@
 		<br>
 		I am searching for a...
 		<select name="criteria" size=1>
+			<option value="item_name">Book Name</option>
 			<option value="sellerID">Seller</option>
 			<option value="min_increment">Minimum Price Increment</option>
 			<option value="start_date_time">Auction Start Date (YYYY-MM-DD)</option>
 			<option value="auctionID">Auction ID</option>
-			<option value="item_name">Book Name</option>
 			<option value="genre">Genre</option>
 		</select>
 		<br>
@@ -34,11 +34,12 @@
 		</select>
 		 order by
 		 <select name="orderCriteria" size=1>
+		 	<option value="relevance">Relevance</option>
+		 	<option value="item_name">Book Name</option>
 			<option value="sellerID">Seller</option>
 			<option value="min_increment">Minimum Price Increment</option>
 			<option value="start_date_time">Auction Start Date (YYYY-MM-DD)</option>
 			<option value="auctionID">Auction ID</option>
-			<option value="item_name">Book Name</option>
 			<option value="genre">Genre</option>
 		</select>
 		.
@@ -79,12 +80,15 @@
 				}
 			} else if(criteria.equals("start_date_time")) {
 					sqlQuery += criteria + " >= '" + query[0] + " 00:00:00'"
-							 + " OR " + criteria + " <= '" + query[0] + " 23:59:59'";
+							 + " AND " + criteria + " <= '" + query[0] + " 23:59:59'";
 			} else {
 				// min_increment or auctionID
 				sqlQuery += criteria + " = '" + query[0] + "'";
-			} 
-			sqlQuery += " ORDER BY " + orderCriteria + " " + order;
+			}
+			
+			if(!orderCriteria.equals("relevance")) {
+				sqlQuery += " ORDER BY " + orderCriteria + " " + order;
+			}
 			ResultSet result = con.prepareStatement(sqlQuery).executeQuery();
 			
 			// Display the search query result.
@@ -106,17 +110,20 @@
 				}
 				
 				// Display the current while loop iteration's Auction information the user.
-				out.println("<h4>"+ result.getString(8) +"</h4>"); // Item name
-				out.println("<h5> Auction ID: "+ result.getString(9) +"</h5>");
-				out.println("<p>" + 
+				out.println("<h4>"+ result.getString(8) +"</h4>" + // Item name
+							"<h5> Auction ID: "+ result.getString(9) +"</h5>" +
+							"<p>" + 
 							"Sold by " + result.getString(3) + "<br>" +
 							"Current bid: $" + String.format("%.2f", highest) + " by "+ buyer + "<br>" +
 							"Minimum bid increment: $" + String.format("%.2f", result.getDouble(4)) + "<br>" +
 							"Start Date: " + result.getString(6) + "<br>" +
 							"End Date: " + result.getString(5) + "<br>" +
 							"</p>" +
-							"<form method=\"post\" action=\"userauctions.jsp?username=" + result.getString(3) +"\" style=\"display: inline\">" +
-							"<input type=\"submit\" value=\"View Seller\">" + // Create link to user here.
+							
+							// Seller History Button
+							"<form method=\"post\" action=\"userauctions.jsp?username=" + 
+							result.getString(3) +"\" style=\"display: inline\">" +
+							"<input type=\"submit\" value=\"View Seller\">" +
 							"</form>" +
 							"<br>");
 				
