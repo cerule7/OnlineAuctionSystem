@@ -44,6 +44,7 @@
 	} catch (Exception ex) {
 		out.print(ex);
 	}
+	 response.sendRedirect("auction.jsp?auctionID="+(String) session.getAttribute("auctionID"));
 %>
 </body>
 </html>
