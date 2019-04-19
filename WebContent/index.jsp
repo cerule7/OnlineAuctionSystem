@@ -24,10 +24,12 @@
         	out.print("<a href=\"logout.jsp\"> Log out </a>"); 
         	out.print("<p>");
         	out.print("<a href=\"auctionstart.jsp\"> Post auction </a>");
-        	out.print("<br>");
+        	out.print("<p>");
         	out.print("<a href=\"searchauctions.jsp\"> Search or Browse Auctions </a>");
         	out.print("<p>");
-        	out.print("<a href=\"myauctions.jsp\"> My auctions </a>");
+        	String url = "profile.jsp?username=" + (String) session.getAttribute("username");
+        	out.print("<a href=\"" + url + "\"> View Profile </a>");
+        	
         } %>
         <p>
         <% if (session.getAttribute("usertype") != null && ((String) session.getAttribute("usertype")).equals("admin")){
