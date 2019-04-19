@@ -21,20 +21,14 @@
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");	
 
 		//Get parameters from the HTML form at login.jsp
-		int auctionID = Integer.parseInt(request.getParameter("auctionID"));
-		//PreparedStatement ps = con.prepareStatement("SELECT * FROM Auction WHERE auctionID = ?;");
-		//ps.setInt(1, auctionID);
-		//ResultSet res = ps.executeQuery();
-		/**
-		int itemID=0;
-		if(res.next()){
-			//itemID = res.getInt("itemID");
-		};
-		*/
-		String question = request.getParameter("question");
-		out.print("<p>"+question+"</p>");
-		
-		
+		String auctionID = (String) session.getAttribute("auctionID");
+		String itemID = (String) session.getAttribute("itemID");
+		PreparedStatement ps = con.prepareStatement("INSERT INTO Question(userID, itemID, question, AuctionID) VALUES (?,?,?,?);");
+		ps.setString(1, ((String) session.getAttribute("username")));
+		ps.setString(2, itemID);
+		ps.setString(3, request.getParameter("question"));
+		ps.setInt(4, Integer.parseInt(auctionID));
+		ps.executeUpdate();
 		
 		//Close the connection
 		con.close();
@@ -42,6 +36,7 @@
 	} catch (Exception ex) {
 		out.print(ex);
 	}
+	 response.sendRedirect("auction.jsp?auctionID="+(String) session.getAttribute("auctionID"));
 %>
 </body>
 </html>

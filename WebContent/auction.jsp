@@ -142,21 +142,40 @@ out.print("<h3> Questions about this item: </h3>");
 //Vlad works his magic here
 %>
 	<% //Statement sta = con.createStatement(); 
-	PreparedStatement sta = con.prepareStatement("SELECT * FROM Question WHERE itemID=?");
+		PreparedStatement sta = con.prepareStatement("SELECT * FROM Question WHERE itemID=? AND auctionID =?");
 		sta.setString(1, itemID);
-	      ResultSet res = sta.executeQuery();
-	      while (res.next()) {
-	        out.print(res.getString("question"));
-	      }
-	      out.print("<h3> Submit Question: </h3>");
+		sta.setInt(2,Integer.parseInt(request.getParameter("auctionID")));
+	    ResultSet res = sta.executeQuery();
+	    while (res.next()) {
+	    	out.print("<p>"+res.getString("userID")+":	"+res.getString("question")+"</p>");
+	    	
+	    	PreparedStatement ans= con.prepareStatement("SELECT * FROM Answer WHERE questionID = ?");
+	    	ans.setString(1, res.getString("questionID"));
+	    	
+	    	ResultSet answers = ans.executeQuery();
+	    	while(answers.next()){
+	    		out.print("<p style=\"padding-left: 15px;\">"+answers.getString("answer")+"</p>");
+	    	}
+	    	if(sellerID.equals((String) session.getAttribute("username"))){
+	    		out.print("<form method = \"post\" action =\"answer.jsp\"><input type = \"text\" name = \"answer\">");
+	    		out.print("<input type =\"submit\" name = \"go\"/>");
+	    		out.print("<input type=\"hidden\" name = \"user\" value = \""+res.getString("userID")+"\"/>");
+	    		out.print("<input type=\"hidden\" name = \"auctionID\" value = \""+res.getString("auctionID")+"\"/>");
+	    		out.print("<input type=\"hidden\" name = \"questionID\" value = \""+res.getString("questionID")+"\"/>");
+	    		out.print("</form>");
+	    	}
+	    	
+	    	}
+	      session.setAttribute("auctionID", Integer.toString(auctionID));
+	      session.setAttribute("itemID", itemID);
+	      //out.print(session.getAttribute("itemID"));
+	      out.print("<h3> Submit Question:"+" </h3>");
 	           
 	%>
 	<div>
-		<form>
-		  <br>
-		  	<input type="text">
-		  <br>
-		  <input type="submit" value="Submit">
+		<form method = "post" action = "questions.jsp">
+		  	<input type="text" name ="question"/>
+		  	<input type ="submit" name = "submit"/>
 		</form>
 	</div>
 	<%con.close();%>
