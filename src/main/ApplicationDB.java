@@ -1,8 +1,11 @@
-package main;
+package src.main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.mysql.jdbc.Statement;
 
 public class ApplicationDB {
 	
@@ -71,7 +74,7 @@ public class ApplicationDB {
 		public int update(String query, Connection con) {
 			Statement stmt=null;
 			try {
-				stmt =con.createStatement();
+				stmt = con.createStatement();
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

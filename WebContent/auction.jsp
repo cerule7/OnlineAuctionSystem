@@ -39,10 +39,6 @@ String item_name = result.getString("item_name");
 String sellerID = result.getString("sellerID");
 double min_increment = result.getDouble("min_increment");
 LocalDateTime start = LocalDateTime.parse(result.getString("start_date_time").substring(0, 10) + "T" + result.getString("start_date_time").substring(11));
-
-
-
-
 LocalDateTime end = LocalDateTime.parse(result.getString("end_date_time").substring(0, 10) + "T" + result.getString("end_date_time").substring(11));
 
 PreparedStatement q2 = con.prepareStatement("SELECT * FROM Item WHERE itemID=?");
@@ -146,6 +142,17 @@ if(username == null){
 	out.print("<br>");
 	out.print("<input type=\"submit\" value=\"Bid\"/>");
 	out.print("</form>");
+}
+
+if((String) session.getAttribute("username") != null && 
+	(((String) session.getAttribute("username")).equals(sellerID) || 
+	((String) session.getAttribute("usertype")).equals("admin") || 
+	((String) session.getAttribute("usertype")).equals("cust_rep"))){
+		out.println("<p>");
+		out.println("<form method\"post\" action=\"deleteauction.jsp\">");
+		out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+		out.println("<input type=\"submit\" value=\"Delete Auction\"/>");
+		out.print("</form>");
 }
 
 out.print("<h3> Questions about this item: </h3>");
