@@ -166,12 +166,12 @@ out.print("<h3> Questions about this item: </h3>");
 	    	while(answers.next()){
 	    		out.print("<p style=\"padding-left: 15px;\">"+answers.getString("answer")+"</p>");
 	    	}
-	    	if((String) session.getAttribute("usertype")=="admin" || (String) session.getAttribute("usertype")=="cust_rep"){
-	    		out.print("<form method = \"post\" action =\"answer.jsp\"><input type = \"text\" name = \"answer\">");
+	    	if(((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
+	    		out.print("<form method = \"post\" action =\"answer.jsp\"> <input type = \"text\" name = \"answer\">");
 	    		out.print("<input type =\"submit\" name = \"go\"/>");
-	    		out.print("<input type=\"hidden\" name = \"user\" value = \""+res.getString("userID")+"\"/>");
-	    		out.print("<input type=\"hidden\" name = \"auctionID\" value = \""+res.getString("auctionID")+"\"/>");
-	    		out.print("<input type=\"hidden\" name = \"questionID\" value = \""+res.getString("questionID")+"\"/>");
+	    		out.print("<input type=\"hidden\" name = \"user\" value = \"" + res.getString("userID") + "\"/>");
+	    		out.print("<input type=\"hidden\" name = \"auctionID\" value = \"" + res.getString("auctionID") + "\"/>");
+	    		out.print("<input type=\"hidden\" name = \"questionID\" value = \"" + res.getString("questionID") + "\"/>");
 	    		out.print("</form>");
 	    	}
 	    	
