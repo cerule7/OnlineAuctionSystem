@@ -10,7 +10,7 @@
 <title></title>
 </head>
 <body>
-<h1>Get Sales Report For:</h1>
+<h1>Get Sales Report</h1>
 <%! public static String getBestItems(Connection con){
 	String report = "";
 	
@@ -124,7 +124,7 @@
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 		
 		//list of auctions done, this is to avoid redundant queries
-		out.print("<p>Total Sales: " +getTotalSales(con) + "</p>");
+		out.print("<p>Total Revenue: " +getTotalSales(con) + "</p>");
 		out.print(getSalesPerGenre(con));
 		
 		out.print("<h2>Best:</h2>");
