@@ -147,16 +147,16 @@ out.print("<h3> Questions about this item: </h3>");
 		sta.setInt(2,Integer.parseInt(request.getParameter("auctionID")));
 	    ResultSet res = sta.executeQuery();
 	    while (res.next()) {
-	    	out.print("<p>" + res.getString("userID")+":	" + res.getString("question")+"</p>");
+	    	out.print("<p>"+res.getString("userID")+":	"+res.getString("question")+"</p>");
 	    	
 	    	PreparedStatement ans= con.prepareStatement("SELECT * FROM Answer WHERE questionID = ?");
 	    	ans.setString(1, res.getString("questionID"));
 	    	
 	    	ResultSet answers = ans.executeQuery();
 	    	while(answers.next()){
-	    		out.print("<p style=\"padding-left: 15px;\">" + answers.getString("userID")+ ":	" + answers.getString("answer")+"</p>");
+	    		out.print("<p style=\"padding-left: 15px;\">"+answers.getString("answer")+"</p>");
 	    	}
-	    	if(sellerID.equals((String) session.getAttribute("username"))){
+	    	if((String) session.getAttribute("usertype")=="admin" || (String) session.getAttribute("usertype")=="cust_rep"){
 	    		out.print("<form method = \"post\" action =\"answer.jsp\"><input type = \"text\" name = \"answer\">");
 	    		out.print("<input type =\"submit\" name = \"go\"/>");
 	    		out.print("<input type=\"hidden\" name = \"user\" value = \""+res.getString("userID")+"\"/>");
