@@ -42,6 +42,12 @@
 		out.print("<input type=\"hidden\" name=\"username\" value=\"" + userID + "\"/>");
 		out.println("<input type=\"submit\" value=\"Delete User\"/>");
 		out.print("</form>");
+		
+		out.println("<p>");
+		out.println("<form method\"post\" action=\"startedituser.jsp\">");
+		out.print("<input type=\"hidden\" name=\"userID\" value=\"" + userID + "\"/>");
+		out.println("<input type=\"submit\" value=\"Edit User\"/>");
+		out.print("</form>");
 	}
 	
 %>

@@ -65,6 +65,9 @@ if(LocalDateTime.now().isBefore(start)){
 	return; 
 }
 
+
+
+
 if(LocalDateTime.now().isAfter(end)){
 	int is_over = result.getInt("is_over");
 	if(is_over == 0){
@@ -91,6 +94,27 @@ if(LocalDateTime.now().isAfter(end)){
 }
 
 out.print("Auction ends at: " + result.getString("end_date_time").substring(0, 10) + " " + result.getString("end_date_time").substring(11, result.getString("end_date_time").length() - 2));
+
+if((String) session.getAttribute("username") != null && 
+(((String) session.getAttribute("username")).equals(sellerID) || 
+((String) session.getAttribute("usertype")).equals("admin") || 
+((String) session.getAttribute("usertype")).equals("cust_rep"))){
+	out.println("<p>");
+	out.println("<form method\"post\" action=\"deleteauction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.println("<input type=\"submit\" value=\"Delete Auction\"/>");
+	out.print("</form>");
+}
+
+if((String) session.getAttribute("username") != null && 
+(((String) session.getAttribute("usertype")).equals("admin") || 
+((String) session.getAttribute("usertype")).equals("cust_rep"))){
+	out.println("<p>");
+	out.println("<form method\"post\" action=\"starteditauction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.println("<input type=\"submit\" value=\"Edit Auction\"/>");
+	out.print("</form>");
+}
 
 //get the highest (current) bid
 PreparedStatement q3 = con.prepareStatement("SELECT * FROM Bids_on WHERE auctionID=? ORDER BY bid DESC LIMIT 1");
@@ -139,29 +163,8 @@ if(username == null){
 	out.print("<input type=\"hidden\" name=\"date_time\" value=\"" + LocalDateTime.now().toString() + "\"/>");
 	out.print("<input type=\"hidden\" name=\"min_increment\" value=\"" + min_increment + "\"/>");
 	out.print("<input type=\"hidden\" name=\"username\" value=\"" + username + "\"/>");
-	out.print("<br>");
+	out.print("<p>");
 	out.print("<input type=\"submit\" value=\"Bid\"/>");
-	out.print("</form>");
-}
-
-if((String) session.getAttribute("username") != null && 
-(((String) session.getAttribute("username")).equals(sellerID) || 
-((String) session.getAttribute("usertype")).equals("admin") || 
-((String) session.getAttribute("usertype")).equals("cust_rep"))){
-	out.println("<p>");
-	out.println("<form method\"post\" action=\"deleteauction.jsp\">");
-	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
-	out.println("<input type=\"submit\" value=\"Delete Auction\"/>");
-	out.print("</form>");
-}
-
-if((String) session.getAttribute("username") != null && 
-(((String) session.getAttribute("usertype")).equals("admin") || 
-((String) session.getAttribute("usertype")).equals("cust_rep"))){
-	out.println("<p>");
-	out.println("<form method\"post\" action=\"starteditauction.jsp\">");
-	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
-	out.println("<input type=\"submit\" value=\"Edit Auction\"/>");
 	out.print("</form>");
 }
 
@@ -181,7 +184,7 @@ out.print("<h3> Questions about this item: </h3>");
 	    	
 	    	ResultSet answers = ans.executeQuery();
 	    	while(answers.next()){
-	    		out.print("<p style=\"padding-left: 15px;\">"+answers.getString("answer")+"</p>");
+	    		out.print("<p style=\"padding-left: 15px;\">"+ answers.getString("userID")+ ":	" + answers.getString("answer") + "</p>");
 	    	}
 	    	if(((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
 	    		out.print("<form method = \"post\" action =\"answer.jsp\"> <input type = \"text\" name = \"answer\">");
