@@ -50,7 +50,7 @@
 			PreparedStatement ps = con.prepareStatement(insert);
 			ResultSet res = ps.executeQuery();
 			if(res.next()){
-				report+="Seller:" +res.getString("sellerID")+"		$"+Double.toString(res.getDouble("revenue"));
+				report+="Seller: " +res.getString("sellerID")+"		$"+Double.toString(res.getDouble("revenue"));
 				}
 			}catch(Exception ex){
 			//out.print(ex);
