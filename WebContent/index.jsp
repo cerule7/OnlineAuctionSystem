@@ -29,6 +29,7 @@
         	out.print("<p>");
         	String url = "profile.jsp?username=" + (String) session.getAttribute("username");
         	out.print("<a href=\"" + url + "\"> View Profile </a>");
+        	out.print("<p>");
         	out.print("<a href=\"searchquestions.jsp\"> Q/A </a>");
         	if (((String) session.getAttribute("usertype")).equals("admin")){
         	    out.print("<p> <a href=\"makerep.jsp\"> Make customer representative accounts </a>");  
