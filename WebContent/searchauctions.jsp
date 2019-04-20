@@ -121,11 +121,17 @@
 							"</p>" +
 							
 							// Seller History Button
-							"<form method=\"post\" action=\"userauctions.jsp?username=" + 
+							"<form method=\"post\" action=\"profile.jsp?username=" + 
 							result.getString(3) +"\" style=\"display: inline\">" +
 							"<input type=\"submit\" value=\"View Seller\">" +
 							"</form>" +
 							"<br>");
+				
+							//View auction
+							out.print("<form  method=\"get\" action=\"auction.jsp\">");
+							out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>");
+							out.print("<input type=\"submit\" value=\"View Auction\"/>");
+							out.print("</form>");
 				
 				// Show options to view histories/profiles only if there exists at least 1 bid.
 				if(!buyer.equals("N/A")){

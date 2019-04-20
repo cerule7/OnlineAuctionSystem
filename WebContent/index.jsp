@@ -30,12 +30,11 @@
         	String url = "profile.jsp?username=" + (String) session.getAttribute("username");
         	out.print("<a href=\"" + url + "\"> View Profile </a>");
         	
+        	if (((String) session.getAttribute("usertype")).equals("admin")){
+        	    out.print("<p> <a href=\"makerep.jsp\"> Make customer representative accounts </a>");  
+                out.print("<p> <a href = \"salesreport.jsp\">Generate Sales Report</a>");
+          	}
         } %>
-        <p>
-        <% if (session.getAttribute("usertype") != null && ((String) session.getAttribute("usertype")).equals("admin")){
-    	    out.print("<a href=\"makerep.jsp\"> Make customer representative accounts </a>");  
-          out.print("<p><a href = \"salesreport.jsp\">Generate Sales Report</a></p>");
-      	} %>
       </form>
       
 

@@ -36,6 +36,14 @@
 			"<input type=\"submit\" value=\"View Auction History\">" + 
 			"</form>");
 	
+	if(session.getAttribute("username") != null && ((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
+		out.println("<p>");
+		out.println("<form method\"post\" action=\"deleteuser.jsp\">");
+		out.print("<input type=\"hidden\" name=\"username\" value=\"" + userID + "\"/>");
+		out.println("<input type=\"submit\" value=\"Delete User\"/>");
+		out.print("</form>");
+	}
+	
 %>
 
 
