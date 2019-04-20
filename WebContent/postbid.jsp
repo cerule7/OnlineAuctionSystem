@@ -66,7 +66,7 @@ int auctionID = Integer.parseInt(request.getParameter("auctionID"));
 String userID = (String) session.getAttribute("username");
 String date_time = request.getParameter("date_time").substring(0, 10) + "T" + request.getParameter("date_time").substring(11, 19);
 
-System.out.println(date_time);
+//System.out.println(date_time);
 
 if(auto_increment == 0 && bid < min_bid) {
 	out.print("You must bid at least " + String.format("%.2f", min_bid) + "! <p>");
@@ -117,7 +117,7 @@ if(result.first() != false){
 			
 			if(my_limit == 0.00 || my_bid <= my_limit){
 				Thread.sleep(1000);
-				System.out.println("current highest " + current_highest + " this autobid of " + my_bid + " will be by " + my_userID);
+				//System.out.println("current highest " + current_highest + " this autobid of " + my_bid + " will be by " + my_userID);
 				
 				//make auto bid
 				String insert2 = "INSERT INTO Bids_on(username, auctionID, bid, autoIncrement_amount, datetime, upperLimit)"

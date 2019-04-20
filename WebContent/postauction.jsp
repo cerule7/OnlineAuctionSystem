@@ -36,11 +36,11 @@ try {
 
 LocalDateTime now = LocalDateTime.now();
 
-if (startprice < 0.01 || minprice < 0.01 || minincrement < 0.01 || start.isAfter(end) || start.equals(end) || start.isBefore(now)){
+if (startprice < 0.001 || minprice < 0.001 || minincrement < 0.001 || start.isAfter(end) || start.equals(end) || start.isBefore(now)){
 	out.print("Something went wrong! Fix these errors in your auction: <p>");
-	if (startprice < 0.01) out.print("Starting price must be at least 0.01.  <p>");
-	if (minprice < 0.01) out.print("Minimum price must be at least 0.01.  <p>");
-	if (minincrement < 0.01) out.print("Minimum increment must be at least 0.01.  <p>");
+	if (startprice < 0.001) out.print("Starting price must be at least 0.01.  <p>");
+	if (minprice < 0.001) out.print("Minimum price must be at least 0.01.  <p>");
+	if (minincrement < 0.001) out.print("Minimum increment must be at least 0.01.  <p>");
 	if (start.isAfter(end) || start.equals(end)) out.print("Start date and time must be before end date and time.  <p>");
 	if (start.isBefore(now)) out.print("Start date and time must be after current date and time.  <p>");
 	return;
