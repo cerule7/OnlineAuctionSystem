@@ -10,23 +10,38 @@
 <title></title>
 </head>
 <body>
-<h1>Get Sales Report</h1>
-<%! public static String getBestItems(Connection con){
-	String report = "";
+<h1>Sales Report</h1>
+<%! 
+	public static String getUserRevenue(Connection con){
+		String report = "";
 	
-	try{
-		String insert = "SELECT item_name, sum(bid) as bid FROM Best_Items group by itemID ORDER BY bid DESC";
-		PreparedStatement ps = con.prepareStatement(insert);
-		ResultSet res = ps.executeQuery();
-		if(res.next()){
-			report+="Item: " +res.getString("item_name")+"		$"+Double.toString(res.getDouble("bid"));
-			}
+		try{
+			String insert = "SELECT username, SUM(bid) as revenue FROM Max_Bid GROUP BY username ORDER BY revenue DESC";
+			PreparedStatement ps = con.prepareStatement(insert);
+			ResultSet res = ps.executeQuery();
+			while(res.next()){
+				report+="<p style=\"padding-left: 15px;\">"+res.getString("username")+":		$"+Double.toString(res.getDouble("revenue"))+"</p>\n";
+				}
 		}catch(Exception ex){
-		report += ex;
+			report += ex;
 		}
-
 		return report;
-}
+	}
+	public static String getBestItems(Connection con){
+		String report = "";
+	
+		try{
+			String insert = "SELECT item_name, sum(bid) as bid FROM Best_Items group by itemID ORDER BY bid DESC";
+			PreparedStatement ps = con.prepareStatement(insert);
+			ResultSet res = ps.executeQuery();
+			if(res.next()){
+				report+="Item: " +res.getString("item_name")+"		$"+Double.toString(res.getDouble("bid"));
+				}
+		}catch(Exception ex){
+			report += ex;
+		}
+		return report;
+	}
 	public static String getBestSeller(Connection con){
 		String report = "";
 	
@@ -35,7 +50,7 @@
 			PreparedStatement ps = con.prepareStatement(insert);
 			ResultSet res = ps.executeQuery();
 			if(res.next()){
-				report+="Seller " +res.getString("sellerID")+"		$"+Double.toString(res.getDouble("revenue"));
+				report+="Seller :" +res.getString("sellerID")+"		$"+Double.toString(res.getDouble("revenue"));
 				}
 			}catch(Exception ex){
 			//out.print(ex);
@@ -84,7 +99,7 @@
 			ps.setString(1, genre);
 			ResultSet res = ps.executeQuery();
 			while(res.next()){
-				thing+="<p style=\"padding-left: 20px;\">"+res.getString("item_name")+ " $"+res.getDouble("revenue")+"</p>"+'\n';
+				thing+="<h4 style=\"padding-left: 25px;\">"+res.getString("item_name")+ ": $"+res.getDouble("revenue")+"</h4>"+'\n';
 				}
 			}catch(Exception ex){
 			//out.print(ex);
@@ -101,7 +116,7 @@
 			PreparedStatement ps = con.prepareStatement(insert);
 			ResultSet res = ps.executeQuery();
 			while(res.next()){
-				thing+="<p>"+res.getString("subcat_name")+ " $"+res.getDouble("revenue")+"</p>";
+				thing+="<h3 style=\"padding-left: 15px;\">"+res.getString("subcat_name")+ ": $"+res.getDouble("revenue")+"</h3>";
 				thing +=getSalesPerItem(con, res.getString("subcat_name"));
 				}
 			}catch(Exception ex){
@@ -124,7 +139,7 @@
 		Connection con = DriverManager.getConnection(url, "admin", "rutgers4");
 		
 		//list of auctions done, this is to avoid redundant queries
-		out.print("<p>Total Revenue: " +getTotalSales(con) + "</p>");
+		out.print("<h2>Total Revenue: " +getTotalSales(con) + "</h2>");
 		out.print(getSalesPerGenre(con));
 		
 		out.print("<h2>Best:</h2>");
@@ -132,6 +147,8 @@
 		out.print("<h3 style=\"padding-left: 15px;\">Buyer: " +getBestBuyer(con));
 		out.print("<h3 style=\"padding-left: 15px;\">" +getBestItems(con)+"</h3>");
 		out.print("<h3 style=\"padding-left: 15px;\">" +getBestSeller(con)+"</h3>");
+		out.print("<h2>Revenue by Active User<h3>");
+		out.print(getUserRevenue(con));
 		//Close the connection. Don't forget to do it, otherwise you're keeping the resources of the server allocated.
 		con.close();
 
