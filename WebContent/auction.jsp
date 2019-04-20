@@ -145,14 +145,24 @@ if(username == null){
 }
 
 if((String) session.getAttribute("username") != null && 
-	(((String) session.getAttribute("username")).equals(sellerID) || 
-	((String) session.getAttribute("usertype")).equals("admin") || 
-	((String) session.getAttribute("usertype")).equals("cust_rep"))){
-		out.println("<p>");
-		out.println("<form method\"post\" action=\"deleteauction.jsp\">");
-		out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
-		out.println("<input type=\"submit\" value=\"Delete Auction\"/>");
-		out.print("</form>");
+(((String) session.getAttribute("username")).equals(sellerID) || 
+((String) session.getAttribute("usertype")).equals("admin") || 
+((String) session.getAttribute("usertype")).equals("cust_rep"))){
+	out.println("<p>");
+	out.println("<form method\"post\" action=\"deleteauction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.println("<input type=\"submit\" value=\"Delete Auction\"/>");
+	out.print("</form>");
+}
+
+if((String) session.getAttribute("username") != null && 
+(((String) session.getAttribute("usertype")).equals("admin") || 
+((String) session.getAttribute("usertype")).equals("cust_rep"))){
+	out.println("<p>");
+	out.println("<form method\"post\" action=\"starteditauction.jsp\">");
+	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+	out.println("<input type=\"submit\" value=\"Edit Auction\"/>");
+	out.print("</form>");
 }
 
 out.print("<h3> Questions about this item: </h3>");
