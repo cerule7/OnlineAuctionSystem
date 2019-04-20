@@ -38,6 +38,11 @@ double start_price = result.getDouble("start_price");
 String item_name = result.getString("item_name");
 String sellerID = result.getString("sellerID");
 double min_increment = result.getDouble("min_increment");
+LocalDateTime start = LocalDateTime.parse(result.getString("start_date_time").substring(0, 10) + "T" + result.getString("start_date_time").substring(11));
+
+
+
+
 LocalDateTime end = LocalDateTime.parse(result.getString("end_date_time").substring(0, 10) + "T" + result.getString("end_date_time").substring(11));
 
 PreparedStatement q2 = con.prepareStatement("SELECT * FROM Item WHERE itemID=?");
@@ -58,6 +63,11 @@ out.print("Author: " + author + "<br>");
 out.print("Genre: " + genre + " <br>");
 out.print("Number of pages: " + String.valueOf(numpages)+ " <br>");
 out.print("Sold by: " + sellerID + "<br>"); //this will be updated to link to the seller's profile
+
+if(LocalDateTime.now().isBefore(start)){
+	out.print("<p> This auction has not started yet. It will start at " + result.getString("start_date_time"));
+	return; 
+}
 
 if(LocalDateTime.now().isAfter(end)){
 	int is_over = result.getInt("is_over");
