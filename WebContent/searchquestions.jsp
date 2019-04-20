@@ -34,7 +34,8 @@
 			ResultSet rs = ps.executeQuery();
 			out.print("<p>Results For: "+request.getParameter("question")+"</p>");
 			while(rs.next()){
-				String link = "\"auction.jsp?auctionID="+rs.getString("auctionID")+"\"";
+				String link = "\"auction.jsp?auctionID="+rs.getString("auctionID")+"\"";;
+				//out.print(link);
 				out.print("<p><a href ="+link+">"+rs.getString("question")+"</a></p>");
 			}
 		}
@@ -70,7 +71,8 @@ try {
 		ResultSet rs = ps.executeQuery();
 		out.print("<p>Results For: "+request.getParameter("answer")+"</p>");
 		while(rs.next()){
-			String link = "\"auction.jsp?auctionID="+rs.getString("auctionID")+"\"";
+			String link = "\"auction.jsp?auctionID="+rs.getString("auctionID")+"\"";;
+			//out.print(link);
 			out.print("<p><a href ="+link+">"+rs.getString("answer")+"</a></p>");
 		}
 	}
