@@ -126,6 +126,12 @@
 							"<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
 							"<input type=\"submit\" value=\"View Auction\"/>" +
 							"</form>" +
+									
+							// Similar Auctions Button
+							" <form  method=\"get\" action=\"similarauctions.jsp\" \" style=\"display: inline\">" +
+							"<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
+							"<input type=\"submit\" value=\"View Similar Auctions\"/>" +
+							"</form>" +
 							
 							// Seller History Button
 							" <form method=\"post\" action=\"profile.jsp?username=" + 
