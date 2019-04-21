@@ -112,6 +112,7 @@
 				// Display the current while loop iteration's Auction information the user.
 				out.println("<h4>"+ result.getString(8) +"</h4>" + // Item name
 							"<h5> Auction ID: "+ result.getString(9) +"</h5>" +
+							"Genre: " + result.getString(11) + "<br>" +
 							"<p>" + 
 							"Sold by " + result.getString(3) + "<br>" +
 							"Current bid: $" + String.format("%.2f", highest) + " by "+ buyer + "<br>" +
