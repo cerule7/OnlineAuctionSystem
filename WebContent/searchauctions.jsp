@@ -121,31 +121,28 @@
 							"End Date: " + result.getString(5) + "<br>" +
 							"</p>" +
 							
+							//View auction
+							"<form  method=\"get\" action=\"auction.jsp\" \" style=\"display: inline\">" +
+							"<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
+							"<input type=\"submit\" value=\"View Auction\"/>" +
+							"</form>" +
+							
 							// Seller History Button
-							"<form method=\"post\" action=\"profile.jsp?username=" + 
+							" <form method=\"post\" action=\"profile.jsp?username=" + 
 							result.getString(3) +"\" style=\"display: inline\">" +
 							"<input type=\"submit\" value=\"View Seller\">" +
-							"</form>" +
-							"<br>");
-				
-							//View auction
-							out.print("<form  method=\"get\" action=\"auction.jsp\">");
-							out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>");
-							out.print("<input type=\"submit\" value=\"View Auction\"/>");
-							out.print("</form>");
+							"</form>");
 				
 				// Show options to view histories/profiles only if there exists at least 1 bid.
 				if(!buyer.equals("N/A")){
-					
 					// Buyer History Button
 					out.print("<form method=\"post\" action=\"profile.jsp?username=" + 
 							  buyer +"\" style=\"display: inline\">" +
 							  "<input type=\"submit\" value=\"View Current Bidder\">" +
 							  "</form>" +
-							  "<br>" +
 							  
 							  // Bid History Button
-							  "<form method=\"post\" action=\"bidhistory.jsp?auctionID=" + 
+							  " <form method=\"post\" action=\"bidhistory.jsp?auctionID=" + 
 							  result.getString(9) +"\" style=\"display: inline\">" +
 							  "<input type=\"submit\" value=\"Bid History\">" +
 							  "</form>" +
