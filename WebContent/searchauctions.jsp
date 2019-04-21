@@ -24,7 +24,7 @@
 			<option value="min_increment">Minimum Price Increment</option>
 			<option value="start_date_time">Auction Start Date (YYYY-MM-DD)</option>
 			<option value="auctionID">Auction ID</option>
-			<option value="genre">Genre</option>
+			<option value="subcat_name">Genre</option>
 		</select>
 		<br>
 		I want the list displayed in...
@@ -40,7 +40,7 @@
 			<option value="min_increment">Minimum Price Increment</option>
 			<option value="start_date_time">Auction Start Date (YYYY-MM-DD)</option>
 			<option value="auctionID">Auction ID</option>
-			<option value="genre">Genre</option>
+			<option value="subcat_name">Genre</option>
 		</select>
 		.
 	</fieldset>
@@ -63,7 +63,8 @@
 			if(orderCriteria == null) orderCriteria = "auctionID";
 			if(criteria == null) criteria = "auctionID";
 			if(order == null) order = "ASC";
-			String sqlQuery = "SELECT DISTINCT * FROM Auction WHERE ";
+			String sqlQuery = "SELECT DISTINCT * FROM Auction LEFT JOIN Has " + 
+							  "ON Auction.ItemID = Has.ItemID WHERE ";
 			
 			// The search algorithm is dependent on the type of criteria for proper querying.
 			if(query == null) {
@@ -72,8 +73,7 @@
 			} else if(query[0].equals("")) {
 				// Blank searches should just show all auctions.
 				sqlQuery += criteria + " LIKE '%'";
-			} else if(criteria.equals("sellerID") || criteria.equals("item_name") ||
-			   criteria.equals("genre")) {
+			} else if(criteria.equals("sellerID") || criteria.equals("item_name") || criteria.equals("genre")) {
 				sqlQuery += criteria + " LIKE '%" + String.join(" ", query) + "%'";
 				for(int i=0; i<query.length; i++) {
 					sqlQuery += " OR " + criteria + " LIKE '%" + query[i] + "%'";
