@@ -136,8 +136,20 @@
 				
 				// Show options to view histories/profiles only if there exists at least 1 bid.
 				if(!buyer.equals("N/A")){
-					out.print("View Bid History" + "<br>" + // Create link to bidhistory.jsp here.
-							  "View Current Bidder" + "<br>" ); // Create link to user here.
+					
+					// Buyer History Button
+					out.print("<form method=\"post\" action=\"profile.jsp?username=" + 
+							  buyer +"\" style=\"display: inline\">" +
+							  "<input type=\"submit\" value=\"View Current Bidder\">" +
+							  "</form>" +
+							  "<br>" +
+							  
+							  // Bid History Button
+							  "<form method=\"post\" action=\"bidhistory.jsp?auctionID=" + 
+							  result.getString(9) +"\" style=\"display: inline\">" +
+							  "<input type=\"submit\" value=\"Bid History\">" +
+							  "</form>" +
+							  "<br>");
 				}
 				out.println("<hr>");
 				

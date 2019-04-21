@@ -94,10 +94,15 @@
 			out.print("<select name=\"genre\">");
 				out.print("<option value=\"Biography\">Biography</option>");
 				out.print("<option value=\"Classics\">Classics</option>");
+				out.print("<option value=\"Fiction\">Fiction</option>");
 				out.print("<option value=\"History\">History</option>");
 				out.print("<option value=\"Horror\">Horror</option>");
-				out.print("<option value=\"Poetry\">Poetry</option>");
+				out.print("<option value=\"Mystery\">Mystery</option>");
+				out.print("<option value=\"Non-fiction\">Non-fiction</option>");
+				out.print("<option value=\"Romance\">Romance</option>");
+				out.print("<option value=\"Science\">Science</option>");
 				out.print("<option value=\"Sci-fi\">Sci-fi</option>");
+				out.print("<option value=\"Poetry\">Poetry</option>");
 			out.print("</select>");
 		}
 		
