@@ -184,7 +184,7 @@ out.print("<h3> Questions about this item: </h3>");
 	    	
 	    	ResultSet answers = ans.executeQuery();
 	    	while(answers.next()){
-	    		out.print("<p style=\"padding-left: 15px;\">"+ answers.getString("userID")+ ":	" + answers.getString("answer") + "</p>");
+	    		out.print("<p style=\"padding-left: 15px;\">"+res.getString("userID")+":	"+answers.getString("answer")+"</p>");
 	    	}
 	    	if(((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
 	    		out.print("<form method = \"post\" action =\"answer.jsp\"> <input type = \"text\" name = \"answer\">");
