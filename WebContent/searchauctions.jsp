@@ -42,6 +42,13 @@
 			<option value="auctionID">Auction ID</option>
 			<option value="subcat_name">Genre</option>
 		</select>
+		<br>
+		I want auctions that are
+		<select name="activity" size=1>
+			<option value="both">Active or Inactive</option>
+			<option value="active">Active</option>
+			<option value="inactive">Inactive</option>
+		</select>
 		.
 	</fieldset>
 </form>
@@ -59,10 +66,12 @@
 			String criteria = request.getParameter("criteria");
 			String orderCriteria = request.getParameter("orderCriteria");
 			String order = request.getParameter("order");
+			String activity = request.getParameter("activity");
 			// Values will null when the page initially loads; they must be initialized.
 			if(orderCriteria == null) orderCriteria = "auctionID";
 			if(criteria == null) criteria = "auctionID";
 			if(order == null) order = "ASC";
+			if(activity == null) activity = "both";
 			String sqlQuery = "SELECT DISTINCT * FROM Auction LEFT JOIN Has " + 
 							  "ON Auction.ItemID = Has.ItemID WHERE ";
 			
@@ -84,6 +93,14 @@
 			} else {
 				// min_increment or auctionID
 				sqlQuery += criteria + " = '" + query[0] + "'";
+			}
+			
+			if(activity.equals("active")) {
+				sqlQuery += " AND start_date_time <= CURRENT_TIMESTAMP AND" +
+							" end_date_time >= CURRENT_TIMESTAMP";
+			} else if(activity.equals("inactive")){
+				sqlQuery += " AND (start_date_time >= CURRENT_TIMESTAMP OR" +
+						" end_date_time <= CURRENT_TIMESTAMP)";
 			}
 			
 			if(!orderCriteria.equals("relevance")) {

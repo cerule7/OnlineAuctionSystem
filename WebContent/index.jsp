@@ -5,9 +5,9 @@
    <body>
       <%
       if (session.getAttribute("username") == null) {
-      		out.print("You are not logged in");
+      		out.print("You are not logged in. ");
+      		out.print("Login or register to use bookBay.");
       		out.print("<p>");
-      		out.print("<p>Click a link to login or register.</p>");
       } else out.print("Welcome " + (String) session.getAttribute("username") + "!");
       %>
       
