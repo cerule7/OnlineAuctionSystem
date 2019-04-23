@@ -21,11 +21,14 @@
         if(session.getAttribute("username") != null) {
         	String url = "profile.jsp?username=" + (String) session.getAttribute("username");
         	out.print("<a href=\"" + url + "\">View Profile</a>");
-        	out.print("  <a href=\"logout.jsp\">Log out</a>"); 
-        	out.print("<p>");
+        	out.print("<br>");
+        	out.print("<a href=\"logout.jsp\">Log out</a>"); 
+        	out.print("<br>");
         	out.print("<a href=\"auctionstart.jsp\"> Post auction </a>");
         	out.print("<br>");
         	out.print("<a href=\"searchauctions.jsp\"> Search or Browse Auctions </a>");
+        	out.print("<br>");
+        	out.print("<a href=\"viewitems.jsp\"> View Items </a>");
         	out.print("<br>");
          	out.print("<a href=\"searchquestions.jsp\"> Search Q/A </a>");
         	if (((String) session.getAttribute("usertype")).equals("admin")){
