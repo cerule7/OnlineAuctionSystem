@@ -68,7 +68,7 @@ String date_time = request.getParameter("date_time").substring(0, 10) + "T" + re
 
 //System.out.println(date_time);
 
-if(auto_increment == 0 && bid < min_bid) {
+if(auto_increment == 0 && bid < min_bid - 0.001) {
 	out.print("You must bid at least " + String.format("%.2f", min_bid) + "! <p>");
 	out.print("<form  method=\"get\" action=\"auction.jsp\">");
 	out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");

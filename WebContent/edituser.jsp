@@ -30,6 +30,15 @@ if(result.next() == false){
 	return;
 } 
 
+if(request.getParameter("password").isEmpty() && request.getParameter("email").isEmpty()){
+	out.print("You have to enter a password or email!");
+	out.print("<p>");
+	String profurl = "profile.jsp?username=" + username;
+	out.print("<a href=\"" + profurl + "\"> Back to profile </a>");
+	out.print("<p>");
+	return;
+}
+
 if(!request.getParameter("password").isEmpty()){
 	String password = request.getParameter("password");
 	PreparedStatement q2 = con.prepareStatement("UPDATE User SET password = ? WHERE username = ?");
