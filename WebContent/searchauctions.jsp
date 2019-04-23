@@ -127,39 +127,44 @@
 				}
 				
 				// Display the current while loop iteration's Auction information the user.
-				out.println("<h4>"+ result.getString(8) +"</h4>" + // Item name
-							"<h5> Auction ID: "+ result.getString(9) +"</h5>" +
-							"Genre: " + result.getString(11) + "<br>" +
-							"<p>" + 
-							"Sold by " + result.getString(3) + "<br>" +
-							"Current bid: $" + String.format("%.2f", highest) + " by "+ buyer + "<br>" +
-							"Minimum bid increment: $" + String.format("%.2f", result.getDouble(4)) + "<br>" +
-							"Start Date: " + result.getString(6) + "<br>" +
-							"End Date: " + result.getString(5) + "<br>" +
-							"</p>" +
-							
-							//View auction
-							"<form  method=\"get\" action=\"auction.jsp\" \" style=\"display: inline\">" +
-							"<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
-							"<input type=\"submit\" value=\"View Auction\"/>" +
-							"</form>" +
-									
-							// Similar Auctions Button
-							" <form  method=\"get\" action=\"similarauctions.jsp\" \" style=\"display: inline\">" +
-							"<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
-							"<input type=\"submit\" value=\"View Similar Auctions\"/>" +
-							"</form>" +
-							
-							// Seller History Button
-							" <form method=\"post\" action=\"profile.jsp?username=" + 
-							result.getString(3) +"\" style=\"display: inline\">" +
-							"<input type=\"submit\" value=\"View Seller\">" +
-							"</form>");
+				out.print("<h4>"+ result.getString(8) +"</h4>" + // Item name
+						  "<h5> Auction ID: "+ result.getString(9) +"</h5>" +
+						  "Genre: " + result.getString(11) + "<br>" +
+						  "<p>" + 
+						  "Sold by " + result.getString(3) + "<br>" +
+						  "Starting price: $" + String.format("%.2f", result.getDouble(1)) + "<br>");
+				
+				if(highest > 0){
+					out.print("Current bid: $" + String.format("%.2f", highest) + " by "+ buyer + "<br>");
+				} else out.print("Current bid: No current bidders" + "<br>");
+				
+				out.print("Minimum bid increment: $" + String.format("%.2f", result.getDouble(4)) + "<br>" +
+						  "Start Date: " + result.getString(6) + "<br>" +
+						  "End Date: " + result.getString(5) + "<br>" +
+						  "</p>" +
+						  
+						  //View auction
+						  "<form  method=\"get\" action=\"auction.jsp\" \" style=\"display: inline\">" +
+						  "<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
+						  "<input type=\"submit\" value=\"View Auction\"/>" +
+						  "</form>" +
+						  		
+						  // Similar Auctions Button
+						  " <form  method=\"get\" action=\"similarauctions.jsp\" \" style=\"display: inline\">" +
+						  "<input type=\"hidden\" name=\"auctionID\" value=\"" + result.getString(9) + "\"/>" +
+						  "<input type=\"submit\" value=\"View Similar Auctions\"/>" +
+						  "</form>" +
+						  
+						  // Seller History Button
+						  " <form method=\"post\" action=\"profile.jsp?username=" + 
+						  result.getString(3) +"\" style=\"display: inline\">" +
+						  "<input type=\"submit\" value=\"View Seller\">" +
+						  "</form>");
 				
 				// Show options to view histories/profiles only if there exists at least 1 bid.
 				if(!buyer.equals("N/A")){
 					// Buyer History Button
-					out.print("<form method=\"post\" action=\"profile.jsp?username=" + 
+					out.print(" <form method=\"post\" action=\"profile.jsp?username=" + 
 							  buyer +"\" style=\"display: inline\">" +
 							  "<input type=\"submit\" value=\"View Current Bidder\">" +
 							  "</form>" +
