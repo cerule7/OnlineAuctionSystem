@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<h1> List of Items </h1>
+<h1> List of Items on Site </h1>
 
 <% 
 

@@ -7,18 +7,21 @@
       if (session.getAttribute("username") == null) {
       		out.print("You are not logged in. ");
       		out.print("Login or register to use bookBay.");
-      		out.print("<p>");
+      		out.print("<br>");
       } else out.print("Welcome " + (String) session.getAttribute("username") + "!");
+      		out.print("<br>");
       %>
       
       <form>
          <%
          if(session.getAttribute("username") == null){
         	 out.print("<a href=\"login.jsp\"> Login </a>"); 
-        	 out.print("<p>");
+        	 out.print("<br>");
         	 out.print("<a href=\"register.jsp\"> Register </a>");
+        	 out.print("<br>");
          }
         if(session.getAttribute("username") != null) {
+        	out.print("<br>");
         	String url = "profile.jsp?username=" + (String) session.getAttribute("username");
         	out.print("<a href=\"" + url + "\">View Profile</a>");
         	out.print("<br>");
