@@ -104,6 +104,11 @@
 			
 			if(currentwinner.equals(userID)){
 				out.print("<p>You are Currently Winning!<p>");
+				out.print("<form  method=\"get\" action=\"auction.jsp\">");
+				out.print("<input type=\"hidden\" name=\"auctionID\" value=\"" + auctionID + "\"/>");
+				out.print("<input type=\"submit\" value=\"View\"/>");
+				out.print("</form>");
+				out.print("<p>");
 				
 			}else{
 				
