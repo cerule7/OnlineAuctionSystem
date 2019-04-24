@@ -48,19 +48,7 @@
 	out.println("<form method=\"post\" action=\"userAutoBidAlert.jsp?username=" + userID +"\" style=\"display: inline\">" +
 			"<input type=\"submit\" value=\"View Alerts for Items You have AutoBid On\">" + 
 			"</form>");
-	if(session.getAttribute("username") != null && ((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
-		out.println("<p>");
-		out.println("<form method\"post\" action=\"deleteuser.jsp\">");
-		out.print("<input type=\"hidden\" name=\"username\" value=\"" + userID + "\"/>");
-		out.println("<input type=\"submit\" value=\"Delete User\"/>");
-		out.print("</form>");
-		
-		out.println("<p>");
-		out.println("<form method\"post\" action=\"startedituser.jsp\">");
-		out.print("<input type=\"hidden\" name=\"userID\" value=\"" + userID + "\"/>");
-		out.println("<input type=\"submit\" value=\"Edit User\"/>");
-		out.print("</form>");
-	}
+
 	
 %>
 

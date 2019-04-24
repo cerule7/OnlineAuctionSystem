@@ -34,6 +34,11 @@
                 out.print("<p> <a href = \"salesreport.jsp\">Generate Sales Report</a>");
           	}
         	out.print("<p>");
+        	
+        	if (((String) session.getAttribute("usertype")).equals("admin") || ((String) session.getAttribute("usertype")).equals("cust_rep")){
+                out.print("<p> <a href = \"bidDelete.jsp\">Delete Bids</a>");
+          	}
+        	out.print("<p>");
 
            	String url2 = "AlertHomePage.jsp?username=" + (String) session.getAttribute("username");
         	out.print("<a href=\"" + url2 + "\"> My Alerts </a>");
