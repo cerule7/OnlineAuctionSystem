@@ -135,6 +135,40 @@ if(result.first() != false){
 			}
 	}
 }
+//Now set up Alerts
+
+String FK_username = (String) session.getAttribute("username");
+int FK_auctionID = Integer.parseInt(request.getParameter("auctionID"));
+String alertType;
+
+//AutoBid Alerts
+if(upper_limit!=0){
+	alertType = "Auto";
+	
+	
+}else{
+	alertType = "Bid";
+
+}
+
+
+String insertAlert = "INSERT INTO AlertTable(FK_username, AlertType ,FK_auctionID)"
+		+ "VALUES (?, ?, ?)";
+//Create a Prepared SQL statement allowing you to introduce the parameters of the query
+PreparedStatement psInsertAlert = con.prepareStatement(insertAlert);
+
+
+//Add parameters of the query. Start with 1, the 0-parameter is the INSERT statement itself
+psInsertAlert.setString(1, FK_username);
+psInsertAlert.setString(2, alertType);
+psInsertAlert.setInt(3, FK_auctionID);
+
+
+
+
+//Run the query against the DB
+psInsertAlert.executeUpdate();
+
 
 con.close();
 out.print("Bid successful!");
